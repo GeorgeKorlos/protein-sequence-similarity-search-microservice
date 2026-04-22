@@ -42,3 +42,4 @@ build/
 
 # Env files
 .envlogs/
+logs/
