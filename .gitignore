@@ -41,4 +41,4 @@ build/
 *.tar
 
 # Env files
-.env
+.envlogs/

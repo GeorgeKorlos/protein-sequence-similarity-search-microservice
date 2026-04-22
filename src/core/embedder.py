@@ -17,10 +17,20 @@ class BaseEmbedder(abc.ABC):
 
 class ESM2Embedder(BaseEmbedder):
     MODEL_TAG = 'facebook/esm2_t30_150M_UR50D'
-    def __init__(self, debug: bool = False):
+    def __init__(self, device: str | None = None, debug: bool = False):
         self.debug = debug
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        logger.info("Device selected %s", self.device)
+
+        if device is not None:
+            if device not in ("cpu", "cuda"):
+                raise ValueError(f"Invalid device: {device}")
+            
+            if device == "cuda" and not torch.cuda.is_available():
+                raise ValueError("CUDA requested but not available")
+
+            self.device = torch.device(device)
+        else:
+            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        logger.info("Device selected: %s", self.device)
 
         self.tokenizer = AutoTokenizer.from_pretrained(ESM2Embedder.MODEL_TAG)
         self.model = AutoModel.from_pretrained(ESM2Embedder.MODEL_TAG).to(self.device)
