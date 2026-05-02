@@ -16,15 +16,16 @@ class BaseEmbedder(abc.ABC):
 
 
 class ESM2Embedder(BaseEmbedder):
-    MODEL_TAG = "facebook/esm2_t33_650M_UR50D"
 
     def __init__(
         self,
+        model_tag: str = "facebook/esm2_t33_650M_UR50D",
         device: str | None = None,
         debug: bool = False,
         compile_model: bool = True,
     ):
         self.debug = debug
+        self.MODEL_TAG = model_tag
 
         if device is not None:
             if device not in ("cpu", "cuda"):
@@ -40,14 +41,12 @@ class ESM2Embedder(BaseEmbedder):
 
         logger.info("Device selected: %s", self.device)
 
-        self.tokenizer = AutoTokenizer.from_pretrained(
-            ESM2Embedder.MODEL_TAG, use_fast=True
-        )
+        self.tokenizer = AutoTokenizer.from_pretrained(self.MODEL_TAG, use_fast=True)
 
         model_dtype = torch.float16 if self.device.type == "cuda" else torch.float32
-        self.model = AutoModel.from_pretrained(
-            ESM2Embedder.MODEL_TAG, dtype=model_dtype
-        ).to(self.device)
+        self.model = AutoModel.from_pretrained(self.MODEL_TAG, dtype=model_dtype).to(
+            self.device
+        )
         self.model.eval()
 
         if compile_model and self.device.type == "cuda":
@@ -64,7 +63,7 @@ class ESM2Embedder(BaseEmbedder):
         config_dict = self.model.config.to_dict()
         config_json = json.dumps(config_dict, sort_keys=True)
         config_hash = hashlib.sha256(config_json.encode()).hexdigest()
-        return f"{ESM2Embedder.MODEL_TAG}_{config_hash[:8]}"
+        return f"{self.MODEL_TAG}_{config_hash[:8]}"
 
     @property
     def model_version(self) -> str:

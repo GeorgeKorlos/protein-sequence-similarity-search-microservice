@@ -47,6 +47,12 @@ def parse_args():
         help="Directory to save embeddings (default: data/)",
     )
     parser.add_argument(
+        "--model-tag",
+        type=str,
+        default="facebook/esm2_t33_650M_UR50D",
+        help="HuggingFace model tag (default: facebook/esm2_t33_650M_UR50D)",
+    )
+    parser.add_argument(
         "--max-batch-size",
         type=int,
         default=256,
@@ -90,30 +96,33 @@ def parse_args():
     return parser.parse_args()
 
 
-# ESM-2  architecture constants
-_NUM_HEADS = 20
-_NUM_LAYERS = 33
-_HIDDEN_DIM = 1280
 _BYTES_PER_ELEM = 2  # fp16
-_MODEL_WEIGHT_BYTES = 1300 * 1024 * 1024  # ~1.3 GB fp16 for 650M
 LONG_SEQ_THRESHOLD = 800
 
 
-def _vram_budget(vram_gb: float, safety: float) -> int:
-    return int((vram_gb * 1024**3 - _MODEL_WEIGHT_BYTES) * safety)
-
-
-def _batch_memory_bytes(n: int, max_len: int) -> int:
-    attn = n * _NUM_HEADS * (max_len**2) * _BYTES_PER_ELEM
-    hidden = n * max_len * _NUM_LAYERS * _HIDDEN_DIM * _BYTES_PER_ELEM
+def _batch_memory_bytes(
+    n: int, max_len: int, num_heads: int, num_layers: int, hidden_dim: int
+) -> int:
+    attn = n * num_heads * (max_len**2) * _BYTES_PER_ELEM
+    hidden = n * max_len * num_layers * hidden_dim * _BYTES_PER_ELEM
     return attn + hidden
 
 
-def _max_batch_size_for_len(max_len: int, hard_cap: int, budget: int) -> int:
+def _max_batch_size_for_len(
+    max_len: int,
+    hard_cap: int,
+    budget: int,
+    num_heads: int,
+    num_layers: int,
+    hidden_dim: int,
+) -> int:
     lo, hi = 1, hard_cap
     while lo < hi:
         mid = (lo + hi + 1) // 2
-        if _batch_memory_bytes(mid, max_len) <= budget:
+        if (
+            _batch_memory_bytes(mid, max_len, num_heads, num_layers, hidden_dim)
+            <= budget
+        ):
             lo = mid
         else:
             hi = mid - 1
@@ -125,6 +134,9 @@ def build_dynamic_batches(
     ids: list[str],
     max_batch_size: int,
     vram_budget: int,
+    num_heads: int,
+    num_layers: int,
+    hidden_dim: int,
 ) -> list[tuple]:
     batches = []
     current_seqs, current_ids, current_max_len = [], [], 0
@@ -140,11 +152,16 @@ def build_dynamic_batches(
             continue
 
         new_max_len = max(current_max_len, seq_len)
-        cap = _max_batch_size_for_len(new_max_len, max_batch_size, vram_budget)
+        cap = _max_batch_size_for_len(
+            new_max_len, max_batch_size, vram_budget, num_heads, num_layers, hidden_dim
+        )
 
         flush = (
             len(current_seqs) >= cap
-            or _batch_memory_bytes(len(current_seqs) + 1, new_max_len) > vram_budget
+            or _batch_memory_bytes(
+                len(current_seqs) + 1, new_max_len, num_heads, num_layers, hidden_dim
+            )
+            > vram_budget
         )
 
         if flush and current_seqs:
@@ -171,9 +188,24 @@ def main():
     logger.info("Corpus size: %d", len(store))
     logger.info("Corpus version: %s", store.corpus_version)
 
-    model = ESM2Embedder(device=args.device, debug=False)
+    model = ESM2Embedder(model_tag=args.model_tag, device=args.device, debug=False)
     logger.info("Loaded model: %s", model.MODEL_TAG)
     logger.info("Model version: %s", model.model_version)
+
+    cfg = model.model.config
+    num_heads = cfg.num_attention_heads
+    num_layers = cfg.num_hidden_layers
+    hidden_dim = cfg.hidden_size
+    embedding_dim = model.embedding_dim
+    model_weight_bytes = sum(p.numel() * 2 for p in model.model.parameters())
+
+    logger.info(
+        "Model config: heads=%d layers=%d dim=%d weights=%.0f MB",
+        num_heads,
+        num_layers,
+        hidden_dim,
+        model_weight_bytes / 1024**2,
+    )
 
     all_sequences = store.get_all_sequences()
     all_ids = store.get_all_ids()
@@ -182,11 +214,17 @@ def main():
     all_sequences, all_ids = zip(*pairs)
     all_sequences, all_ids = list(all_sequences), list(all_ids)
 
-    vram_budget = _vram_budget(args.vram_gb, args.vram_safety)
+    vram_budget = int((args.vram_gb * 1024**3 - model_weight_bytes) * args.vram_safety)
     logger.info("VRAM budget: %.2f MB", vram_budget / 1024**2)
 
     batches = build_dynamic_batches(
-        all_sequences, all_ids, args.max_batch_size, vram_budget
+        all_sequences,
+        all_ids,
+        args.max_batch_size,
+        vram_budget,
+        num_heads,
+        num_layers,
+        hidden_dim,
     )
     logger.info(
         "Dynamic batching: %d sequences → %d batches (avg %.1f seq/batch)",
@@ -222,11 +260,17 @@ def main():
         )
         batches = batches[batches_to_skip:]
         memmap_arr = np.lib.format.open_memmap(
-            filename=output_path, mode="r+", dtype="float32", shape=(len(store), 1280)
+            filename=output_path,
+            mode="r+",
+            dtype="float32",
+            shape=(len(store), embedding_dim),
         )
     else:
         memmap_arr = np.lib.format.open_memmap(
-            filename=output_path, mode="w+", dtype="float32", shape=(len(store), 1280)
+            filename=output_path,
+            mode="w+",
+            dtype="float32",
+            shape=(len(store), embedding_dim),
         )
 
     total = len(store)
