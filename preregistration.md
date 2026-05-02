@@ -16,7 +16,7 @@ Rationale: curated, high-quality and widely accepted benchmark dataset with reli
 
 ## Embedding Strategy
 
-- Model: ESM-2 (esm2_t30_150M_ur50d)
+- Model: ESM-2 (esm2_t33_650M_UR50D)
 - Representation: Mean pooling over token embeddings
 - Post-processing: L2 normalization
 

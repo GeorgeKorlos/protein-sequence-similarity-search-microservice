@@ -5,8 +5,9 @@ embedder = ESM2Embedder()
 sequence = "MKTAYIAKQRQISFVKSHFSRQ"
 output = embedder.embed(sequences=[sequence])
 
+
 def test_embedder_output_shape():
-    assert output.shape == (1, 640)
+    assert output.shape == (1, 1280)
 
 
 def test_embedder_output_type():
@@ -21,3 +22,7 @@ def test_embedder_verify_determinism():
     output_a = embedder.embed(sequences=[sequence])
     output_b = embedder.embed(sequences=[sequence])
     assert np.array_equal(output_a, output_b)
+
+
+def test_embedding_dim():
+    assert embedder.embedding_dim == 1280
