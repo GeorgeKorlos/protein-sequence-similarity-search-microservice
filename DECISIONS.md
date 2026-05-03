@@ -1,5 +1,17 @@
 ## ESM-2 Model Size
 
+* **Options** considered: 150M, 650M, 3B
+* **Choice**: 650M
+
+* **Rationale**:
+The corpus size (547k sequences) and length distribution (mean 324 aa, p95 729 aa) require a model that balances representation quality with full-corpus feasibility.
+
+**150M**: insufficient throughput-performance tradeoff. Local benchmark showed ~3–5 seq/s → >60 hours estimated for full corpus; embedding quality also expected to be weaker for downstream functional similarity tasks.
+**650M**: optimal midpoint. On RTX 3090, full corpus processed in ~88 minutes, sustaining high throughput while capturing sufficient structural/functional signal for Week 6 evaluation.
+**3B**: computationally viable only under higher-end infrastructure; deferred to P5 ablation where quality gains vs cost will be measured on DTI retrieval.
+
+Given the moderate corpus size but high sequence-length variance, 650M is the largest model that enables single-pass embedding generation without fragmentation or multi-day runtimes.
+
 ## FAISS Index Type
 
 ## Distance Metric
@@ -9,6 +21,27 @@
 ## Sequence Length Cap
 
 ## Batch Size
+
+* **Choice**: Dynamic, memory-aware batching (no fixed batch size)
+
+* **Rationale**:
+The corpus exhibits extreme variance in sequence length (2 → 1024 aa), which makes fixed batching fundamentally inefficient:
+* Short sequences (≤100 aa): GPU underutilized if batch is small
+* Long sequences (≥800 aa): OOM risk if batch is large
+
+A fixed batch size would either:
+* OOM on the long tail, or
+* Waste >50% of available VRAM on the bulk of the distribution (median ≈ 289 aa)
+
+Implementation:
+* Dynamic scheduler adjusts batch size per step based on sequence length and VRAM budget
+* Peak batch size: 256 (short sequences)
+* Minimum batch size: 1 (long sequences >800 aa)
+* VRAM utilization: ~19.8 GB / 24 GB (safety factor = 0.85)
+
+Observed performance (aligned with corpus distribution):
+* Average throughput: ~103 seq/s across full dataset
+* Peak throughput: ~500 seq/s (post-compile warmup, short sequences)
 
 ## Corpus Choice
 

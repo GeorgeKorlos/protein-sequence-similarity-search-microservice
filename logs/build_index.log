@@ -1,0 +1,263 @@
+2026-05-02 16:46:23 - INFO - Corpus loaded from: data/swissprot_clean.csv
+2026-05-02 16:46:23 - INFO - Corpus size: 547205
+2026-05-02 16:46:23 - INFO - Corpus version: 815b9c416dba10200840df8ba925c0d104a99c4ba72004839ee5a0bf04b202e4
+2026-05-02 16:46:23 - INFO - Device selected: cuda
+2026-05-02 16:46:23 - INFO - HTTP Request: HEAD https://huggingface.co/facebook/esm2_t33_650M_UR50D/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-02 16:46:23 - WARNING - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-05-02 16:46:23 - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/facebook/esm2_t33_650M_UR50D/08e4846e537177426273712802403f7ba8261b6c/config.json "HTTP/1.1 200 OK"
+2026-05-02 16:46:23 - INFO - HTTP Request: GET https://huggingface.co/api/resolve-cache/models/facebook/esm2_t33_650M_UR50D/08e4846e537177426273712802403f7ba8261b6c/config.json "HTTP/1.1 200 OK"
+2026-05-02 16:46:24 - INFO - HTTP Request: HEAD https://huggingface.co/facebook/esm2_t33_650M_UR50D/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-02 16:46:24 - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/facebook/esm2_t33_650M_UR50D/08e4846e537177426273712802403f7ba8261b6c/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-05-02 16:46:24 - INFO - HTTP Request: GET https://huggingface.co/api/resolve-cache/models/facebook/esm2_t33_650M_UR50D/08e4846e537177426273712802403f7ba8261b6c/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-05-02 16:46:24 - INFO - HTTP Request: GET https://huggingface.co/api/models/facebook/esm2_t33_650M_UR50D/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-05-02 16:46:24 - INFO - HTTP Request: GET https://huggingface.co/api/models/facebook/esm2_t33_650M_UR50D/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-05-02 16:46:24 - INFO - HTTP Request: HEAD https://huggingface.co/facebook/esm2_t33_650M_UR50D/resolve/main/vocab.txt "HTTP/1.1 307 Temporary Redirect"
+2026-05-02 16:46:24 - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/facebook/esm2_t33_650M_UR50D/08e4846e537177426273712802403f7ba8261b6c/vocab.txt "HTTP/1.1 200 OK"
+2026-05-02 16:46:24 - INFO - HTTP Request: GET https://huggingface.co/api/resolve-cache/models/facebook/esm2_t33_650M_UR50D/08e4846e537177426273712802403f7ba8261b6c/vocab.txt "HTTP/1.1 200 OK"
+2026-05-02 16:46:24 - INFO - HTTP Request: HEAD https://huggingface.co/facebook/esm2_t33_650M_UR50D/resolve/main/added_tokens.json "HTTP/1.1 404 Not Found"
+2026-05-02 16:46:24 - INFO - HTTP Request: HEAD https://huggingface.co/facebook/esm2_t33_650M_UR50D/resolve/main/special_tokens_map.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-02 16:46:24 - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/facebook/esm2_t33_650M_UR50D/08e4846e537177426273712802403f7ba8261b6c/special_tokens_map.json "HTTP/1.1 200 OK"
+2026-05-02 16:46:24 - INFO - HTTP Request: GET https://huggingface.co/api/resolve-cache/models/facebook/esm2_t33_650M_UR50D/08e4846e537177426273712802403f7ba8261b6c/special_tokens_map.json "HTTP/1.1 200 OK"
+2026-05-02 16:46:24 - INFO - HTTP Request: HEAD https://huggingface.co/facebook/esm2_t33_650M_UR50D/resolve/main/tokenizer.json "HTTP/1.1 404 Not Found"
+2026-05-02 16:46:24 - INFO - HTTP Request: HEAD https://huggingface.co/facebook/esm2_t33_650M_UR50D/resolve/main/chat_template.jinja "HTTP/1.1 404 Not Found"
+2026-05-02 16:46:25 - INFO - HTTP Request: HEAD https://huggingface.co/facebook/esm2_t33_650M_UR50D/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-02 16:46:25 - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/facebook/esm2_t33_650M_UR50D/08e4846e537177426273712802403f7ba8261b6c/config.json "HTTP/1.1 200 OK"
+2026-05-02 16:46:25 - INFO - HTTP Request: HEAD https://huggingface.co/facebook/esm2_t33_650M_UR50D/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+2026-05-02 16:46:25 - INFO - HTTP Request: GET https://huggingface.co/api/models/facebook/esm2_t33_650M_UR50D/xet-read-token/08e4846e537177426273712802403f7ba8261b6c "HTTP/1.1 200 OK"
+2026-05-02 16:46:36 - INFO - Model compiled with torch.compile
+2026-05-02 16:46:36 - INFO - Loaded model: facebook/esm2_t33_650M_UR50D
+2026-05-02 16:46:36 - INFO - Model version: facebook/esm2_t33_650M_UR50D_ebd129c7
+2026-05-02 16:46:36 - INFO - Model config: heads=20 layers=33 dim=1280 weights=1242 MB
+2026-05-02 16:46:37 - INFO - VRAM budget: 19834.10 MB
+2026-05-02 16:46:38 - INFO - Dynamic batching: 547205 sequences → 20624 batches (avg 26.5 seq/batch)
+2026-05-02 16:47:08 - INFO - Processed 256/547205 | batch=256 seqs | max_len=8 | latency=29669.36 ms | elapsed=29.67s | eta=63389.59s
+2026-05-02 16:48:28 - INFO - Processed 26624/547205 | batch=256 seqs | max_len=75 | latency=513.25 ms | elapsed=109.67s | eta=2144.40s
+2026-05-02 16:49:29 - INFO - Processed 52992/547205 | batch=256 seqs | max_len=100 | latency=676.04 ms | elapsed=170.82s | eta=1593.09s
+2026-05-02 16:50:46 - INFO - Processed 79360/547205 | batch=256 seqs | max_len=122 | latency=827.69 ms | elapsed=248.23s | eta=1463.39s
+2026-05-02 16:52:30 - INFO - Processed 105728/547205 | batch=256 seqs | max_len=144 | latency=1094.86 ms | elapsed=351.96s | eta=1469.64s
+2026-05-02 16:54:32 - INFO - Processed 132096/547205 | batch=256 seqs | max_len=164 | latency=1296.59 ms | elapsed=473.38s | eta=1487.57s
+2026-05-02 16:56:48 - INFO - Processed 158464/547205 | batch=256 seqs | max_len=187 | latency=1387.25 ms | elapsed=609.90s | eta=1496.21s
+2026-05-02 16:59:19 - INFO - Processed 184832/547205 | batch=256 seqs | max_len=209 | latency=1504.94 ms | elapsed=760.65s | eta=1491.29s
+2026-05-02 17:02:05 - INFO - Processed 211200/547205 | batch=256 seqs | max_len=231 | latency=1609.72 ms | elapsed=926.68s | eta=1474.28s
+2026-05-02 17:05:07 - INFO - Processed 237568/547205 | batch=256 seqs | max_len=255 | latency=1898.39 ms | elapsed=1108.54s | eta=1444.82s
+2026-05-02 21:37:55 - INFO - Corpus loaded from: data/swissprot_clean.csv
+2026-05-02 21:37:55 - INFO - Corpus size: 547205
+2026-05-02 21:37:55 - INFO - Corpus version: 815b9c416dba10200840df8ba925c0d104a99c4ba72004839ee5a0bf04b202e4
+2026-05-02 21:37:55 - INFO - Device selected: cuda
+2026-05-02 21:37:55 - INFO - HTTP Request: HEAD https://huggingface.co/facebook/esm2_t33_650M_UR50D/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-02 21:37:55 - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/facebook/esm2_t33_650M_UR50D/08e4846e537177426273712802403f7ba8261b6c/config.json "HTTP/1.1 200 OK"
+2026-05-02 21:37:55 - INFO - HTTP Request: HEAD https://huggingface.co/facebook/esm2_t33_650M_UR50D/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-02 21:37:55 - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/facebook/esm2_t33_650M_UR50D/08e4846e537177426273712802403f7ba8261b6c/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-05-02 21:37:56 - INFO - HTTP Request: GET https://huggingface.co/api/models/facebook/esm2_t33_650M_UR50D/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-05-02 21:37:56 - INFO - HTTP Request: GET https://huggingface.co/api/models/facebook/esm2_t33_650M_UR50D/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-05-02 21:37:56 - INFO - HTTP Request: HEAD https://huggingface.co/facebook/esm2_t33_650M_UR50D/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-02 21:37:56 - WARNING - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-05-02 21:37:56 - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/facebook/esm2_t33_650M_UR50D/08e4846e537177426273712802403f7ba8261b6c/config.json "HTTP/1.1 200 OK"
+2026-05-02 21:37:59 - INFO - Model compiled with torch.compile
+2026-05-02 21:37:59 - INFO - Loaded model: facebook/esm2_t33_650M_UR50D
+2026-05-02 21:37:59 - INFO - Model version: facebook/esm2_t33_650M_UR50D_ebd129c7
+2026-05-02 21:37:59 - INFO - Model config: heads=20 layers=33 dim=1280 weights=1242 MB
+2026-05-02 21:38:00 - INFO - VRAM budget: 19834.10 MB
+2026-05-02 21:38:01 - INFO - Dynamic batching: 547205 sequences → 20624 batches (avg 26.5 seq/batch)
+2026-05-02 21:38:08 - INFO - Processed 256/547205 | batch=256 seqs | max_len=8 | latency=6349.90 ms | elapsed=6.35s | eta=13567.45s
+2026-05-02 21:38:52 - INFO - Processed 26624/547205 | batch=256 seqs | max_len=75 | latency=510.44 ms | elapsed=50.93s | eta=995.88s
+2026-05-02 21:39:53 - INFO - Processed 52992/547205 | batch=256 seqs | max_len=100 | latency=660.97 ms | elapsed=111.74s | eta=1042.07s
+2026-05-02 21:41:09 - INFO - Processed 79360/547205 | batch=256 seqs | max_len=122 | latency=809.97 ms | elapsed=187.52s | eta=1105.46s
+2026-05-02 21:42:54 - INFO - Processed 105728/547205 | batch=256 seqs | max_len=144 | latency=1098.02 ms | elapsed=292.24s | eta=1220.29s
+2026-05-02 21:44:53 - INFO - Processed 132096/547205 | batch=256 seqs | max_len=164 | latency=1229.40 ms | elapsed=411.99s | eta=1294.66s
+2026-05-02 21:47:07 - INFO - Processed 158464/547205 | batch=256 seqs | max_len=187 | latency=1398.83 ms | elapsed=545.99s | eta=1339.41s
+2026-05-02 21:49:39 - INFO - Processed 184832/547205 | batch=256 seqs | max_len=209 | latency=1439.85 ms | elapsed=698.14s | eta=1368.73s
+2026-05-02 21:52:25 - INFO - Processed 211200/547205 | batch=256 seqs | max_len=231 | latency=1701.42 ms | elapsed=863.56s | eta=1373.86s
+2026-05-02 21:55:27 - INFO - Processed 237568/547205 | batch=256 seqs | max_len=255 | latency=1798.77 ms | elapsed=1045.22s | eta=1362.30s
+2026-05-02 21:58:47 - INFO - Processed 263936/547205 | batch=256 seqs | max_len=279 | latency=2000.33 ms | elapsed=1245.75s | eta=1337.00s
+2026-05-02 22:02:23 - INFO - Processed 290304/547205 | batch=256 seqs | max_len=305 | latency=2197.99 ms | elapsed=1461.18s | eta=1293.06s
+2026-05-02 22:06:16 - INFO - Processed 316672/547205 | batch=256 seqs | max_len=330 | latency=2305.29 ms | elapsed=1694.27s | eta=1233.40s
+2026-05-02 22:10:27 - INFO - Processed 343040/547205 | batch=256 seqs | max_len=355 | latency=2416.34 ms | elapsed=1945.61s | eta=1157.95s
+2026-05-02 22:14:57 - INFO - Processed 369408/547205 | batch=256 seqs | max_len=382 | latency=2601.02 ms | elapsed=2215.36s | eta=1066.26s
+2026-05-02 22:19:50 - INFO - Processed 395776/547205 | batch=256 seqs | max_len=417 | latency=3011.59 ms | elapsed=2508.71s | eta=959.86s
+2026-05-02 22:25:10 - INFO - Processed 422144/547205 | batch=256 seqs | max_len=450 | latency=3219.85 ms | elapsed=2828.16s | eta=837.85s
+2026-05-02 22:30:59 - INFO - Processed 448512/547205 | batch=256 seqs | max_len=492 | latency=3500.02 ms | elapsed=3177.30s | eta=699.15s
+2026-05-02 22:37:21 - INFO - Processed 474880/547205 | batch=256 seqs | max_len=548 | latency=3919.33 ms | elapsed=3559.97s | eta=542.19s
+2026-05-02 22:44:44 - INFO - Processed 501248/547205 | batch=256 seqs | max_len=633 | latency=4798.37 ms | elapsed=4003.13s | eta=367.03s
+2026-05-02 22:54:11 - INFO - Processed 527081/547205 | batch=228 seqs | max_len=785 | latency=5191.40 ms | elapsed=4569.77s | eta=174.47s
+2026-05-02 22:55:27 - INFO - Processed 528745/547205 | batch=1 seqs | max_len=801 | latency=33.11 ms | elapsed=4646.11s | eta=162.21s
+2026-05-02 22:55:31 - INFO - Processed 528848/547205 | batch=1 seqs | max_len=802 | latency=32.94 ms | elapsed=4649.52s | eta=161.39s
+2026-05-02 22:55:34 - INFO - Processed 528951/547205 | batch=1 seqs | max_len=803 | latency=33.33 ms | elapsed=4652.93s | eta=160.57s
+2026-05-02 22:55:38 - INFO - Processed 529054/547205 | batch=1 seqs | max_len=804 | latency=33.19 ms | elapsed=4656.36s | eta=159.75s
+2026-05-02 22:55:41 - INFO - Processed 529157/547205 | batch=1 seqs | max_len=804 | latency=33.31 ms | elapsed=4659.79s | eta=158.93s
+2026-05-02 22:55:45 - INFO - Processed 529260/547205 | batch=1 seqs | max_len=805 | latency=33.46 ms | elapsed=4663.23s | eta=158.11s
+2026-05-02 22:55:48 - INFO - Processed 529363/547205 | batch=1 seqs | max_len=806 | latency=33.21 ms | elapsed=4666.66s | eta=157.29s
+2026-05-02 22:55:51 - INFO - Processed 529466/547205 | batch=1 seqs | max_len=807 | latency=33.42 ms | elapsed=4670.12s | eta=156.47s
+2026-05-02 22:55:55 - INFO - Processed 529569/547205 | batch=1 seqs | max_len=808 | latency=33.42 ms | elapsed=4673.57s | eta=155.64s
+2026-05-02 22:55:58 - INFO - Processed 529672/547205 | batch=1 seqs | max_len=809 | latency=33.38 ms | elapsed=4677.03s | eta=154.82s
+2026-05-02 22:56:02 - INFO - Processed 529775/547205 | batch=1 seqs | max_len=810 | latency=33.40 ms | elapsed=4680.49s | eta=153.99s
+2026-05-02 22:56:05 - INFO - Processed 529878/547205 | batch=1 seqs | max_len=810 | latency=33.88 ms | elapsed=4683.96s | eta=153.17s
+2026-05-02 22:56:09 - INFO - Processed 529981/547205 | batch=1 seqs | max_len=812 | latency=34.07 ms | elapsed=4687.43s | eta=152.34s
+2026-05-02 22:56:12 - INFO - Processed 530084/547205 | batch=1 seqs | max_len=813 | latency=33.60 ms | elapsed=4690.91s | eta=151.51s
+2026-05-02 22:56:16 - INFO - Processed 530187/547205 | batch=1 seqs | max_len=814 | latency=33.60 ms | elapsed=4694.38s | eta=150.68s
+2026-05-02 22:56:19 - INFO - Processed 530290/547205 | batch=1 seqs | max_len=815 | latency=33.73 ms | elapsed=4697.85s | eta=149.85s
+2026-05-02 22:56:23 - INFO - Processed 530393/547205 | batch=1 seqs | max_len=816 | latency=33.90 ms | elapsed=4701.33s | eta=149.02s
+2026-05-02 22:56:26 - INFO - Processed 530496/547205 | batch=1 seqs | max_len=817 | latency=33.64 ms | elapsed=4704.81s | eta=148.19s
+2026-05-02 22:56:30 - INFO - Processed 530599/547205 | batch=1 seqs | max_len=818 | latency=34.30 ms | elapsed=4708.30s | eta=147.35s
+2026-05-02 22:56:33 - INFO - Processed 530702/547205 | batch=1 seqs | max_len=819 | latency=33.79 ms | elapsed=4711.79s | eta=146.52s
+2026-05-02 22:56:37 - INFO - Processed 530805/547205 | batch=1 seqs | max_len=821 | latency=34.14 ms | elapsed=4715.27s | eta=145.69s
+2026-05-02 22:56:40 - INFO - Processed 530908/547205 | batch=1 seqs | max_len=822 | latency=34.38 ms | elapsed=4718.77s | eta=144.85s
+2026-05-02 22:56:44 - INFO - Processed 531011/547205 | batch=1 seqs | max_len=823 | latency=33.92 ms | elapsed=4722.27s | eta=144.01s
+2026-05-02 22:56:47 - INFO - Processed 531114/547205 | batch=1 seqs | max_len=824 | latency=33.79 ms | elapsed=4725.76s | eta=143.17s
+2026-05-02 22:56:51 - INFO - Processed 531217/547205 | batch=1 seqs | max_len=825 | latency=33.65 ms | elapsed=4729.26s | eta=142.34s
+2026-05-02 22:56:54 - INFO - Processed 531320/547205 | batch=1 seqs | max_len=827 | latency=34.54 ms | elapsed=4732.76s | eta=141.50s
+2026-05-02 22:56:58 - INFO - Processed 531423/547205 | batch=1 seqs | max_len=828 | latency=34.96 ms | elapsed=4736.27s | eta=140.66s
+2026-05-02 22:57:01 - INFO - Processed 531526/547205 | batch=1 seqs | max_len=829 | latency=33.83 ms | elapsed=4739.78s | eta=139.81s
+2026-05-02 22:57:05 - INFO - Processed 531629/547205 | batch=1 seqs | max_len=830 | latency=34.27 ms | elapsed=4743.29s | eta=138.97s
+2026-05-02 22:57:08 - INFO - Processed 531732/547205 | batch=1 seqs | max_len=831 | latency=36.33 ms | elapsed=4746.83s | eta=138.13s
+2026-05-02 22:57:12 - INFO - Processed 531835/547205 | batch=1 seqs | max_len=832 | latency=34.44 ms | elapsed=4750.40s | eta=137.29s
+2026-05-02 22:57:15 - INFO - Processed 531938/547205 | batch=1 seqs | max_len=833 | latency=35.41 ms | elapsed=4753.96s | eta=136.44s
+2026-05-02 22:57:19 - INFO - Processed 532041/547205 | batch=1 seqs | max_len=834 | latency=34.46 ms | elapsed=4757.52s | eta=135.60s
+2026-05-02 22:57:22 - INFO - Processed 532144/547205 | batch=1 seqs | max_len=835 | latency=35.13 ms | elapsed=4761.09s | eta=134.75s
+2026-05-02 22:57:26 - INFO - Processed 532247/547205 | batch=1 seqs | max_len=836 | latency=34.47 ms | elapsed=4764.66s | eta=133.90s
+2026-05-02 22:57:30 - INFO - Processed 532350/547205 | batch=1 seqs | max_len=837 | latency=35.25 ms | elapsed=4768.23s | eta=133.06s
+2026-05-02 22:57:33 - INFO - Processed 532453/547205 | batch=1 seqs | max_len=838 | latency=34.32 ms | elapsed=4771.79s | eta=132.21s
+2026-05-02 22:57:37 - INFO - Processed 532556/547205 | batch=1 seqs | max_len=839 | latency=34.25 ms | elapsed=4775.37s | eta=131.36s
+2026-05-02 22:57:40 - INFO - Processed 532659/547205 | batch=1 seqs | max_len=840 | latency=34.30 ms | elapsed=4778.94s | eta=130.50s
+2026-05-02 22:57:44 - INFO - Processed 532762/547205 | batch=1 seqs | max_len=841 | latency=34.26 ms | elapsed=4782.50s | eta=129.65s
+2026-05-02 22:57:47 - INFO - Processed 532865/547205 | batch=1 seqs | max_len=842 | latency=34.25 ms | elapsed=4786.07s | eta=128.80s
+2026-05-02 22:57:51 - INFO - Processed 532968/547205 | batch=1 seqs | max_len=843 | latency=34.36 ms | elapsed=4789.62s | eta=127.94s
+2026-05-02 22:57:55 - INFO - Processed 533071/547205 | batch=1 seqs | max_len=844 | latency=35.59 ms | elapsed=4793.19s | eta=127.09s
+2026-05-02 22:57:58 - INFO - Processed 533174/547205 | batch=1 seqs | max_len=845 | latency=34.30 ms | elapsed=4796.75s | eta=126.23s
+2026-05-02 22:58:02 - INFO - Processed 533277/547205 | batch=1 seqs | max_len=846 | latency=34.57 ms | elapsed=4800.32s | eta=125.37s
+2026-05-02 22:58:05 - INFO - Processed 533380/547205 | batch=1 seqs | max_len=848 | latency=34.72 ms | elapsed=4803.90s | eta=124.52s
+2026-05-02 22:58:09 - INFO - Processed 533483/547205 | batch=1 seqs | max_len=849 | latency=34.25 ms | elapsed=4807.47s | eta=123.66s
+2026-05-02 22:58:12 - INFO - Processed 533586/547205 | batch=1 seqs | max_len=850 | latency=34.43 ms | elapsed=4811.06s | eta=122.80s
+2026-05-02 22:58:16 - INFO - Processed 533689/547205 | batch=1 seqs | max_len=852 | latency=35.76 ms | elapsed=4814.64s | eta=121.93s
+2026-05-02 22:58:20 - INFO - Processed 533792/547205 | batch=1 seqs | max_len=853 | latency=35.36 ms | elapsed=4818.22s | eta=121.07s
+2026-05-02 22:58:23 - INFO - Processed 533895/547205 | batch=1 seqs | max_len=854 | latency=34.57 ms | elapsed=4821.82s | eta=120.21s
+2026-05-02 22:58:27 - INFO - Processed 533998/547205 | batch=1 seqs | max_len=855 | latency=34.30 ms | elapsed=4825.41s | eta=119.34s
+2026-05-02 22:58:30 - INFO - Processed 534101/547205 | batch=1 seqs | max_len=856 | latency=35.25 ms | elapsed=4828.98s | eta=118.48s
+2026-05-02 22:58:34 - INFO - Processed 534204/547205 | batch=1 seqs | max_len=857 | latency=34.48 ms | elapsed=4832.57s | eta=117.61s
+2026-05-02 22:58:38 - INFO - Processed 534307/547205 | batch=1 seqs | max_len=858 | latency=34.64 ms | elapsed=4836.16s | eta=116.74s
+2026-05-02 22:58:41 - INFO - Processed 534410/547205 | batch=1 seqs | max_len=858 | latency=34.55 ms | elapsed=4839.74s | eta=115.87s
+2026-05-02 22:58:45 - INFO - Processed 534513/547205 | batch=1 seqs | max_len=859 | latency=35.24 ms | elapsed=4843.33s | eta=115.00s
+2026-05-02 22:58:48 - INFO - Processed 534616/547205 | batch=1 seqs | max_len=860 | latency=35.57 ms | elapsed=4846.91s | eta=114.13s
+2026-05-02 22:58:52 - INFO - Processed 534719/547205 | batch=1 seqs | max_len=860 | latency=34.30 ms | elapsed=4850.50s | eta=113.26s
+2026-05-02 22:58:55 - INFO - Processed 534822/547205 | batch=1 seqs | max_len=861 | latency=34.38 ms | elapsed=4854.08s | eta=112.39s
+2026-05-02 22:58:59 - INFO - Processed 534925/547205 | batch=1 seqs | max_len=862 | latency=34.67 ms | elapsed=4857.67s | eta=111.52s
+2026-05-02 22:59:03 - INFO - Processed 535028/547205 | batch=1 seqs | max_len=863 | latency=34.74 ms | elapsed=4861.26s | eta=110.64s
+2026-05-02 22:59:06 - INFO - Processed 535131/547205 | batch=1 seqs | max_len=864 | latency=35.68 ms | elapsed=4864.86s | eta=109.76s
+2026-05-02 22:59:10 - INFO - Processed 535234/547205 | batch=1 seqs | max_len=865 | latency=34.93 ms | elapsed=4868.48s | eta=108.89s
+2026-05-02 22:59:13 - INFO - Processed 535337/547205 | batch=1 seqs | max_len=866 | latency=34.60 ms | elapsed=4872.10s | eta=108.01s
+2026-05-02 22:59:17 - INFO - Processed 535440/547205 | batch=1 seqs | max_len=867 | latency=34.79 ms | elapsed=4875.70s | eta=107.13s
+2026-05-02 22:59:21 - INFO - Processed 535543/547205 | batch=1 seqs | max_len=868 | latency=34.60 ms | elapsed=4879.31s | eta=106.25s
+2026-05-02 22:59:24 - INFO - Processed 535646/547205 | batch=1 seqs | max_len=869 | latency=34.75 ms | elapsed=4882.93s | eta=105.37s
+2026-05-02 22:59:28 - INFO - Processed 535749/547205 | batch=1 seqs | max_len=870 | latency=34.87 ms | elapsed=4886.53s | eta=104.49s
+2026-05-02 22:59:31 - INFO - Processed 535852/547205 | batch=1 seqs | max_len=872 | latency=35.18 ms | elapsed=4890.14s | eta=103.61s
+2026-05-02 22:59:35 - INFO - Processed 535955/547205 | batch=1 seqs | max_len=872 | latency=34.70 ms | elapsed=4893.76s | eta=102.72s
+2026-05-02 22:59:39 - INFO - Processed 536058/547205 | batch=1 seqs | max_len=873 | latency=34.58 ms | elapsed=4897.37s | eta=101.84s
+2026-05-02 22:59:42 - INFO - Processed 536161/547205 | batch=1 seqs | max_len=874 | latency=34.87 ms | elapsed=4900.98s | eta=100.95s
+2026-05-02 22:59:46 - INFO - Processed 536264/547205 | batch=1 seqs | max_len=874 | latency=34.86 ms | elapsed=4904.61s | eta=100.07s
+2026-05-02 22:59:50 - INFO - Processed 536367/547205 | batch=1 seqs | max_len=875 | latency=34.65 ms | elapsed=4908.22s | eta=99.18s
+2026-05-02 22:59:53 - INFO - Processed 536470/547205 | batch=1 seqs | max_len=876 | latency=35.76 ms | elapsed=4911.83s | eta=98.29s
+2026-05-02 22:59:57 - INFO - Processed 536573/547205 | batch=1 seqs | max_len=876 | latency=35.73 ms | elapsed=4915.44s | eta=97.40s
+2026-05-02 23:00:00 - INFO - Processed 536676/547205 | batch=1 seqs | max_len=877 | latency=35.82 ms | elapsed=4919.06s | eta=96.51s
+2026-05-02 23:00:04 - INFO - Processed 536779/547205 | batch=1 seqs | max_len=878 | latency=35.09 ms | elapsed=4922.68s | eta=95.61s
+2026-05-02 23:00:08 - INFO - Processed 536882/547205 | batch=1 seqs | max_len=879 | latency=35.69 ms | elapsed=4926.30s | eta=94.72s
+2026-05-02 23:00:11 - INFO - Processed 536985/547205 | batch=1 seqs | max_len=880 | latency=35.60 ms | elapsed=4929.92s | eta=93.83s
+2026-05-02 23:00:15 - INFO - Processed 537088/547205 | batch=1 seqs | max_len=881 | latency=35.91 ms | elapsed=4933.53s | eta=92.93s
+2026-05-02 23:00:19 - INFO - Processed 537191/547205 | batch=1 seqs | max_len=882 | latency=35.42 ms | elapsed=4937.15s | eta=92.04s
+2026-05-02 23:00:22 - INFO - Processed 537294/547205 | batch=1 seqs | max_len=883 | latency=34.75 ms | elapsed=4940.77s | eta=91.14s
+2026-05-02 23:00:26 - INFO - Processed 537397/547205 | batch=1 seqs | max_len=883 | latency=35.13 ms | elapsed=4944.38s | eta=90.24s
+2026-05-02 23:00:29 - INFO - Processed 537500/547205 | batch=1 seqs | max_len=884 | latency=34.74 ms | elapsed=4948.01s | eta=89.34s
+2026-05-02 23:00:33 - INFO - Processed 537603/547205 | batch=1 seqs | max_len=885 | latency=36.27 ms | elapsed=4951.62s | eta=88.44s
+2026-05-02 23:00:37 - INFO - Processed 537706/547205 | batch=1 seqs | max_len=887 | latency=35.05 ms | elapsed=4955.26s | eta=87.54s
+2026-05-02 23:00:40 - INFO - Processed 537809/547205 | batch=1 seqs | max_len=887 | latency=34.93 ms | elapsed=4958.89s | eta=86.64s
+2026-05-02 23:00:44 - INFO - Processed 537912/547205 | batch=1 seqs | max_len=889 | latency=35.77 ms | elapsed=4962.52s | eta=85.73s
+2026-05-02 23:00:48 - INFO - Processed 538015/547205 | batch=1 seqs | max_len=890 | latency=35.92 ms | elapsed=4966.16s | eta=84.83s
+2026-05-02 23:00:51 - INFO - Processed 538118/547205 | batch=1 seqs | max_len=891 | latency=34.99 ms | elapsed=4969.79s | eta=83.92s
+2026-05-02 23:00:55 - INFO - Processed 538221/547205 | batch=1 seqs | max_len=892 | latency=34.90 ms | elapsed=4973.43s | eta=83.02s
+2026-05-02 23:00:58 - INFO - Processed 538324/547205 | batch=1 seqs | max_len=893 | latency=35.08 ms | elapsed=4977.07s | eta=82.11s
+2026-05-02 23:01:02 - INFO - Processed 538427/547205 | batch=1 seqs | max_len=894 | latency=35.18 ms | elapsed=4980.72s | eta=81.20s
+2026-05-02 23:01:06 - INFO - Processed 538530/547205 | batch=1 seqs | max_len=895 | latency=35.51 ms | elapsed=4984.39s | eta=80.29s
+2026-05-02 23:01:09 - INFO - Processed 538633/547205 | batch=1 seqs | max_len=897 | latency=36.59 ms | elapsed=4988.09s | eta=79.38s
+2026-05-02 23:01:13 - INFO - Processed 538736/547205 | batch=1 seqs | max_len=898 | latency=35.57 ms | elapsed=4991.78s | eta=78.47s
+2026-05-02 23:01:17 - INFO - Processed 538839/547205 | batch=1 seqs | max_len=899 | latency=36.51 ms | elapsed=4995.47s | eta=77.56s
+2026-05-02 23:01:21 - INFO - Processed 538942/547205 | batch=1 seqs | max_len=901 | latency=35.64 ms | elapsed=4999.16s | eta=76.65s
+2026-05-02 23:01:24 - INFO - Processed 539045/547205 | batch=1 seqs | max_len=901 | latency=35.42 ms | elapsed=5002.85s | eta=75.73s
+2026-05-02 23:01:28 - INFO - Processed 539148/547205 | batch=1 seqs | max_len=902 | latency=35.37 ms | elapsed=5006.55s | eta=74.82s
+2026-05-02 23:01:32 - INFO - Processed 539251/547205 | batch=1 seqs | max_len=903 | latency=36.42 ms | elapsed=5010.24s | eta=73.90s
+2026-05-02 23:01:35 - INFO - Processed 539354/547205 | batch=1 seqs | max_len=904 | latency=35.85 ms | elapsed=5013.94s | eta=72.98s
+2026-05-02 23:01:39 - INFO - Processed 539457/547205 | batch=1 seqs | max_len=905 | latency=36.71 ms | elapsed=5017.64s | eta=72.07s
+2026-05-02 23:01:43 - INFO - Processed 539560/547205 | batch=1 seqs | max_len=906 | latency=35.78 ms | elapsed=5021.34s | eta=71.15s
+2026-05-02 23:01:46 - INFO - Processed 539663/547205 | batch=1 seqs | max_len=907 | latency=36.20 ms | elapsed=5025.07s | eta=70.23s
+2026-05-02 23:01:50 - INFO - Processed 539766/547205 | batch=1 seqs | max_len=908 | latency=35.81 ms | elapsed=5028.80s | eta=69.31s
+2026-05-02 23:01:54 - INFO - Processed 539869/547205 | batch=1 seqs | max_len=910 | latency=35.78 ms | elapsed=5032.54s | eta=68.38s
+2026-05-02 23:01:58 - INFO - Processed 539972/547205 | batch=1 seqs | max_len=911 | latency=35.93 ms | elapsed=5036.28s | eta=67.46s
+2026-05-02 23:02:01 - INFO - Processed 540075/547205 | batch=1 seqs | max_len=912 | latency=35.72 ms | elapsed=5040.02s | eta=66.54s
+2026-05-02 23:02:05 - INFO - Processed 540178/547205 | batch=1 seqs | max_len=913 | latency=36.86 ms | elapsed=5043.76s | eta=65.61s
+2026-05-02 23:02:09 - INFO - Processed 540281/547205 | batch=1 seqs | max_len=915 | latency=35.78 ms | elapsed=5047.51s | eta=64.69s
+2026-05-02 23:02:13 - INFO - Processed 540384/547205 | batch=1 seqs | max_len=916 | latency=37.60 ms | elapsed=5051.25s | eta=63.76s
+2026-05-02 23:02:16 - INFO - Processed 540487/547205 | batch=1 seqs | max_len=917 | latency=35.96 ms | elapsed=5054.99s | eta=62.83s
+2026-05-02 23:02:20 - INFO - Processed 540590/547205 | batch=1 seqs | max_len=919 | latency=36.77 ms | elapsed=5058.74s | eta=61.90s
+2026-05-02 23:02:24 - INFO - Processed 540693/547205 | batch=1 seqs | max_len=920 | latency=37.81 ms | elapsed=5062.49s | eta=60.97s
+2026-05-02 23:02:28 - INFO - Processed 540796/547205 | batch=1 seqs | max_len=921 | latency=36.40 ms | elapsed=5066.25s | eta=60.04s
+2026-05-02 23:02:31 - INFO - Processed 540899/547205 | batch=1 seqs | max_len=922 | latency=36.90 ms | elapsed=5070.00s | eta=59.11s
+2026-05-02 23:02:35 - INFO - Processed 541002/547205 | batch=1 seqs | max_len=924 | latency=37.37 ms | elapsed=5073.75s | eta=58.17s
+2026-05-02 23:02:39 - INFO - Processed 541105/547205 | batch=1 seqs | max_len=926 | latency=35.71 ms | elapsed=5077.52s | eta=57.24s
+2026-05-02 23:02:43 - INFO - Processed 541208/547205 | batch=1 seqs | max_len=927 | latency=37.61 ms | elapsed=5081.29s | eta=56.30s
+2026-05-02 23:02:46 - INFO - Processed 541311/547205 | batch=1 seqs | max_len=929 | latency=37.16 ms | elapsed=5085.05s | eta=55.37s
+2026-05-02 23:02:50 - INFO - Processed 541414/547205 | batch=1 seqs | max_len=930 | latency=37.28 ms | elapsed=5088.82s | eta=54.43s
+2026-05-02 23:02:54 - INFO - Processed 541517/547205 | batch=1 seqs | max_len=931 | latency=35.92 ms | elapsed=5092.59s | eta=53.49s
+2026-05-02 23:02:58 - INFO - Processed 541620/547205 | batch=1 seqs | max_len=932 | latency=38.61 ms | elapsed=5096.35s | eta=52.55s
+2026-05-02 23:03:01 - INFO - Processed 541723/547205 | batch=1 seqs | max_len=933 | latency=36.23 ms | elapsed=5100.13s | eta=51.61s
+2026-05-02 23:03:05 - INFO - Processed 541826/547205 | batch=1 seqs | max_len=935 | latency=36.39 ms | elapsed=5103.90s | eta=50.67s
+2026-05-02 23:03:09 - INFO - Processed 541929/547205 | batch=1 seqs | max_len=936 | latency=36.38 ms | elapsed=5107.67s | eta=49.73s
+2026-05-02 23:03:13 - INFO - Processed 542032/547205 | batch=1 seqs | max_len=938 | latency=39.98 ms | elapsed=5111.45s | eta=48.78s
+2026-05-02 23:03:17 - INFO - Processed 542135/547205 | batch=1 seqs | max_len=939 | latency=36.02 ms | elapsed=5115.22s | eta=47.84s
+2026-05-02 23:03:20 - INFO - Processed 542238/547205 | batch=1 seqs | max_len=940 | latency=37.33 ms | elapsed=5118.98s | eta=46.89s
+2026-05-02 23:03:24 - INFO - Processed 542341/547205 | batch=1 seqs | max_len=941 | latency=36.10 ms | elapsed=5122.74s | eta=45.94s
+2026-05-02 23:03:28 - INFO - Processed 542444/547205 | batch=1 seqs | max_len=943 | latency=37.26 ms | elapsed=5126.51s | eta=45.00s
+2026-05-02 23:03:32 - INFO - Processed 542547/547205 | batch=1 seqs | max_len=944 | latency=36.44 ms | elapsed=5130.28s | eta=44.05s
+2026-05-02 23:03:35 - INFO - Processed 542650/547205 | batch=1 seqs | max_len=945 | latency=35.98 ms | elapsed=5134.04s | eta=43.10s
+2026-05-02 23:03:39 - INFO - Processed 542753/547205 | batch=1 seqs | max_len=946 | latency=36.07 ms | elapsed=5137.81s | eta=42.14s
+2026-05-02 23:03:43 - INFO - Processed 542856/547205 | batch=1 seqs | max_len=947 | latency=36.43 ms | elapsed=5141.58s | eta=41.19s
+2026-05-02 23:03:47 - INFO - Processed 542959/547205 | batch=1 seqs | max_len=949 | latency=36.76 ms | elapsed=5145.34s | eta=40.24s
+2026-05-02 23:03:50 - INFO - Processed 543062/547205 | batch=1 seqs | max_len=950 | latency=35.76 ms | elapsed=5149.11s | eta=39.28s
+2026-05-02 23:03:54 - INFO - Processed 543165/547205 | batch=1 seqs | max_len=951 | latency=36.62 ms | elapsed=5152.87s | eta=38.33s
+2026-05-02 23:03:58 - INFO - Processed 543268/547205 | batch=1 seqs | max_len=953 | latency=35.96 ms | elapsed=5156.64s | eta=37.37s
+2026-05-02 23:04:02 - INFO - Processed 543371/547205 | batch=1 seqs | max_len=953 | latency=36.20 ms | elapsed=5160.40s | eta=36.41s
+2026-05-02 23:04:06 - INFO - Processed 543474/547205 | batch=1 seqs | max_len=955 | latency=36.43 ms | elapsed=5164.17s | eta=35.45s
+2026-05-02 23:04:09 - INFO - Processed 543577/547205 | batch=1 seqs | max_len=956 | latency=36.62 ms | elapsed=5167.94s | eta=34.49s
+2026-05-02 23:04:13 - INFO - Processed 543680/547205 | batch=1 seqs | max_len=957 | latency=37.06 ms | elapsed=5171.70s | eta=33.53s
+2026-05-02 23:04:17 - INFO - Processed 543783/547205 | batch=1 seqs | max_len=958 | latency=36.43 ms | elapsed=5175.48s | eta=32.57s
+2026-05-02 23:04:21 - INFO - Processed 543886/547205 | batch=1 seqs | max_len=959 | latency=37.93 ms | elapsed=5179.29s | eta=31.61s
+2026-05-02 23:04:24 - INFO - Processed 543989/547205 | batch=1 seqs | max_len=961 | latency=37.90 ms | elapsed=5183.11s | eta=30.64s
+2026-05-02 23:04:28 - INFO - Processed 544092/547205 | batch=1 seqs | max_len=962 | latency=36.29 ms | elapsed=5186.93s | eta=29.68s
+2026-05-02 23:04:32 - INFO - Processed 544195/547205 | batch=1 seqs | max_len=964 | latency=37.09 ms | elapsed=5190.76s | eta=28.71s
+2026-05-02 23:04:36 - INFO - Processed 544298/547205 | batch=1 seqs | max_len=966 | latency=37.09 ms | elapsed=5194.58s | eta=27.74s
+2026-05-02 23:04:39 - INFO - Processed 544401/547205 | batch=1 seqs | max_len=967 | latency=33.07 ms | elapsed=5198.15s | eta=26.77s
+2026-05-02 23:04:43 - INFO - Processed 544504/547205 | batch=1 seqs | max_len=968 | latency=31.50 ms | elapsed=5201.44s | eta=25.80s
+2026-05-02 23:04:46 - INFO - Processed 544607/547205 | batch=1 seqs | max_len=969 | latency=31.74 ms | elapsed=5204.73s | eta=24.83s
+2026-05-02 23:04:49 - INFO - Processed 544710/547205 | batch=1 seqs | max_len=971 | latency=31.57 ms | elapsed=5208.03s | eta=23.85s
+2026-05-02 23:04:53 - INFO - Processed 544813/547205 | batch=1 seqs | max_len=973 | latency=31.87 ms | elapsed=5211.32s | eta=22.88s
+2026-05-02 23:04:56 - INFO - Processed 544916/547205 | batch=1 seqs | max_len=975 | latency=31.49 ms | elapsed=5214.61s | eta=21.90s
+2026-05-02 23:04:59 - INFO - Processed 545019/547205 | batch=1 seqs | max_len=976 | latency=31.87 ms | elapsed=5217.90s | eta=20.93s
+2026-05-02 23:05:03 - INFO - Processed 545122/547205 | batch=1 seqs | max_len=978 | latency=31.81 ms | elapsed=5221.18s | eta=19.95s
+2026-05-02 23:05:06 - INFO - Processed 545225/547205 | batch=1 seqs | max_len=980 | latency=32.11 ms | elapsed=5224.46s | eta=18.97s
+2026-05-02 23:05:09 - INFO - Processed 545328/547205 | batch=1 seqs | max_len=983 | latency=32.69 ms | elapsed=5227.76s | eta=17.99s
+2026-05-02 23:05:12 - INFO - Processed 545431/547205 | batch=1 seqs | max_len=984 | latency=32.13 ms | elapsed=5231.08s | eta=17.01s
+2026-05-02 23:05:16 - INFO - Processed 545534/547205 | batch=1 seqs | max_len=987 | latency=31.91 ms | elapsed=5234.39s | eta=16.03s
+2026-05-02 23:05:19 - INFO - Processed 545637/547205 | batch=1 seqs | max_len=989 | latency=32.20 ms | elapsed=5237.70s | eta=15.05s
+2026-05-02 23:05:22 - INFO - Processed 545740/547205 | batch=1 seqs | max_len=991 | latency=32.43 ms | elapsed=5241.04s | eta=14.07s
+2026-05-02 23:05:26 - INFO - Processed 545843/547205 | batch=1 seqs | max_len=993 | latency=32.22 ms | elapsed=5244.35s | eta=13.09s
+2026-05-02 23:05:29 - INFO - Processed 545946/547205 | batch=1 seqs | max_len=995 | latency=32.40 ms | elapsed=5247.68s | eta=12.10s
+2026-05-02 23:05:32 - INFO - Processed 546049/547205 | batch=1 seqs | max_len=998 | latency=32.34 ms | elapsed=5251.02s | eta=11.12s
+2026-05-02 23:05:36 - INFO - Processed 546152/547205 | batch=1 seqs | max_len=1001 | latency=32.59 ms | elapsed=5254.34s | eta=10.13s
+2026-05-02 23:05:39 - INFO - Processed 546255/547205 | batch=1 seqs | max_len=1003 | latency=32.34 ms | elapsed=5257.68s | eta=9.14s
+2026-05-02 23:05:42 - INFO - Processed 546358/547205 | batch=1 seqs | max_len=1005 | latency=32.05 ms | elapsed=5261.01s | eta=8.16s
+2026-05-02 23:05:46 - INFO - Processed 546461/547205 | batch=1 seqs | max_len=1008 | latency=32.19 ms | elapsed=5264.31s | eta=7.17s
+2026-05-02 23:05:49 - INFO - Processed 546564/547205 | batch=1 seqs | max_len=1010 | latency=32.20 ms | elapsed=5267.64s | eta=6.18s
+2026-05-02 23:05:52 - INFO - Processed 546667/547205 | batch=1 seqs | max_len=1012 | latency=32.41 ms | elapsed=5270.96s | eta=5.19s
+2026-05-02 23:05:56 - INFO - Processed 546770/547205 | batch=1 seqs | max_len=1014 | latency=32.21 ms | elapsed=5274.28s | eta=4.20s
+2026-05-02 23:05:59 - INFO - Processed 546873/547205 | batch=1 seqs | max_len=1017 | latency=31.93 ms | elapsed=5277.61s | eta=3.20s
+2026-05-02 23:06:02 - INFO - Processed 546976/547205 | batch=1 seqs | max_len=1020 | latency=34.60 ms | elapsed=5280.95s | eta=2.21s
+2026-05-02 23:06:06 - INFO - Processed 547079/547205 | batch=1 seqs | max_len=1022 | latency=33.54 ms | elapsed=5284.44s | eta=1.22s
+2026-05-02 23:06:10 - INFO - Processed 547182/547205 | batch=1 seqs | max_len=1024 | latency=40.38 ms | elapsed=5288.46s | eta=0.22s
+2026-05-02 23:06:11 - INFO - Completed embedding 547205 sequences in 5289.37s (103.45 seq/s)
