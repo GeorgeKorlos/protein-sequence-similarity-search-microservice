@@ -14,6 +14,28 @@ Given the moderate corpus size but high sequence-length variance, 650M is the la
 
 ## FAISS Index Type
 
+The selected ANN index configuration is **IndexIVFFlat with nprobe=10**.
+
+This configuration achieved a **Recall@10 of 0.9910** with a **median throughput of approximately 45 QPS**. Compared against the exact-search `IndexFlatIP` baseline with recall of `1.0000`, this represents a recall degradation of:
+
+\[
+(1.0 - 0.9910) \times 100 = 0.9\%
+\]
+
+This tradeoff is acceptable because it reduces query cost substantially while maintaining effectively lossless retrieval quality for production semantic search workloads.
+
+`IndexHNSWFlat` was not selected despite achieving higher QPS at lower `efSearch` values because its recall plateaued below the target quality threshold. Even at `efSearch=128`, HNSW achieved only approximately **0.965 recall**, corresponding to a **3.5% degradation** versus exact search. For protein similarity retrieval, this level of retrieval loss is significant and increases the probability of missing biologically relevant nearest neighbors.
+
+The selected `IVFFlat(nprobe=10)` configuration therefore represents the best operating point in the benchmark: near-exact recall while more than doubling throughput relative to brute-force search.
+
+At approximately **45 QPS**, the implied median query latency is:
+
+\[
+\frac{1000}{45} \approx 22.2 \text{ ms/query}
+\]
+
+This latency is suitable for interactive API workloads and provides enough headroom for downstream application logic and network overhead within a standard sub-100ms response budget.
+
 ## Distance Metric
 
 ## Pooling Strategy
