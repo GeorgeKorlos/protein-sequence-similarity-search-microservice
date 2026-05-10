@@ -1,0 +1,133 @@
+[
+  {
+    "index_type": "IndexFlatIP",
+    "params": {},
+    "recall_at_k": 1.0,
+    "qps_mean": 23.493803194577584,
+    "qps_median": 23.427546745976738,
+    "qps_std": 0.10556461194573757,
+    "build_time_s": 1.2595515251159668,
+    "index_size_mb": 2667.0166444778442
+  },
+  {
+    "index_type": "IndexIVFFlat",
+    "params": {
+      "nlist": 100,
+      "nprobe": 1
+    },
+    "recall_at_k": 0.7914000000000001,
+    "qps_mean": 475.246474250679,
+    "qps_median": 474.3060440914333,
+    "qps_std": 17.088920137643488,
+    "build_time_s": 4.8393449783325195,
+    "index_size_mb": 2671.6729917526245
+  },
+  {
+    "index_type": "IndexIVFFlat",
+    "params": {
+      "nlist": 100,
+      "nprobe": 5
+    },
+    "recall_at_k": 0.9733,
+    "qps_mean": 88.09408061579006,
+    "qps_median": 88.41960794796294,
+    "qps_std": 0.5866743229544881,
+    "build_time_s": 4.572629451751709,
+    "index_size_mb": 2671.6729917526245
+  },
+  {
+    "index_type": "IndexIVFFlat",
+    "params": {
+      "nlist": 100,
+      "nprobe": 10
+    },
+    "recall_at_k": 0.9906,
+    "qps_mean": 45.42133638926575,
+    "qps_median": 45.087634699758006,
+    "qps_std": 0.5432860506834722,
+    "build_time_s": 4.506844520568848,
+    "index_size_mb": 2671.6729917526245
+  },
+  {
+    "index_type": "IndexIVFFlat",
+    "params": {
+      "nlist": 100,
+      "nprobe": 20
+    },
+    "recall_at_k": 0.9954,
+    "qps_mean": 23.523810416817497,
+    "qps_median": 23.37594270074415,
+    "qps_std": 0.312926314723341,
+    "build_time_s": 4.656016826629639,
+    "index_size_mb": 2671.6729917526245
+  },
+  {
+    "index_type": "IndexIVFFlat",
+    "params": {
+      "nlist": 100,
+      "nprobe": 50
+    },
+    "recall_at_k": 0.996,
+    "qps_mean": 10.676155469289299,
+    "qps_median": 10.629624392545727,
+    "qps_std": 0.11115377044645053,
+    "build_time_s": 4.709908485412598,
+    "index_size_mb": 2671.6729917526245
+  },
+  {
+    "index_type": "IndexHNSWFlat",
+    "params": {
+      "M": 32,
+      "efConstruction": 200,
+      "efSearch": 16
+    },
+    "recall_at_k": 0.9279000000000001,
+    "qps_mean": 6571.887926139946,
+    "qps_median": 5097.790509851489,
+    "qps_std": 2101.734811016274,
+    "build_time_s": 366.01761984825134,
+    "index_size_mb": 2808.766050338745
+  },
+  {
+    "index_type": "IndexHNSWFlat",
+    "params": {
+      "M": 32,
+      "efConstruction": 200,
+      "efSearch": 32
+    },
+    "recall_at_k": 0.9480000000000001,
+    "qps_mean": 3337.5221795491234,
+    "qps_median": 3333.3391613532344,
+    "qps_std": 26.881907193426002,
+    "build_time_s": 364.3353805541992,
+    "index_size_mb": 2808.766050338745
+  },
+  {
+    "index_type": "IndexHNSWFlat",
+    "params": {
+      "M": 32,
+      "efConstruction": 200,
+      "efSearch": 64
+    },
+    "recall_at_k": 0.9564000000000001,
+    "qps_mean": 1677.192000814335,
+    "qps_median": 1675.0174518257725,
+    "qps_std": 8.37569068539705,
+    "build_time_s": 372.35343170166016,
+    "index_size_mb": 2808.766050338745
+  },
+  {
+    "index_type": "IndexHNSWFlat",
+    "params": {
+      "M": 32,
+      "efConstruction": 200,
+      "efSearch": 128
+    },
+    "recall_at_k": 0.9655,
+    "qps_mean": 1073.7494438606225,
+    "qps_median": 1106.2384000426216,
+    "qps_std": 52.89945992407705,
+    "build_time_s": 372.27091932296753,
+    "index_size_mb": 2808.766050338745
+  }
+]
