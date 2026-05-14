@@ -1,3 +1,4 @@
+import ast
 import hashlib
 import pandas as pd
 from pathlib import Path
@@ -36,6 +37,16 @@ class CorpusStore:
         metadata = self.df.iloc[idx][
             ["id", "organism", "keywords", "go_terms"]
         ].to_dict()
+        metadata["keywords"] = (
+            ast.literal_eval(metadata["keywords"])
+            if isinstance(metadata["keywords"], str)
+            else metadata["keywords"]
+        )
+        metadata["go_terms"] = (
+            ast.literal_eval(metadata["go_terms"])
+            if isinstance(metadata["go_terms"], str)
+            else metadata["go_terms"]
+        )
         return metadata
 
     def get_all_sequences(self) -> list[str]:
