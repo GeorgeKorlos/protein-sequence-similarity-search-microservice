@@ -2,7 +2,7 @@ import pytest
 import numpy as np
 from src.core.searcher import Searcher
 from src.core.index_manager import IndexManager
-from src.core.exceptions import IndexNotReadyError
+from src.core.exceptions import IndexNotReadyException
 
 
 @pytest.fixture
@@ -114,5 +114,5 @@ def test_searcher_raises_error_when_index_not_ready(mocker):
     embedder = mocker.Mock()
     corpus_store = mocker.Mock()
 
-    with pytest.raises(IndexNotReadyError):
+    with pytest.raises(IndexNotReadyException):
         Searcher(corpus_store, embedder, im)
