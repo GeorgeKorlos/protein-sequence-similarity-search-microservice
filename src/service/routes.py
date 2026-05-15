@@ -4,16 +4,16 @@ from src.core.searcher import Searcher
 from fastapi.responses import JSONResponse, PlainTextResponse
 from src.core.embedder import ESM2Embedder
 from src.core.validator import SequenceValidator
-from fastapi.concurrency import run_in_threadpool
-from fastapi import APIRouter, Request, Depends, status
+from fastapi import APIRouter, Request, Depends
 from src.core.exceptions import (
     ServiceException,
-    ModelNotLoadedException,
     InvalidSequenceException,
     EmbeddingFailedException,
     SearchFailedException,
     SequenceValidationError,
-    INVALID_SEQUENCE,
+    SequenceTooLongException,
+    BatchTooLargeException,
+    PayloadTooLargeException,
     SEQUENCE_TOO_LONG,
     BATCH_TOO_LARGE,
     PAYLOAD_TOO_LARGE,
@@ -26,13 +26,10 @@ from src.service.schemas import (
     SearchResult,
     HealthResponse,
     ReadyResponse,
-    ErrorResponse,
 )
 from src.service.dependencies import (
     get_embedder,
     get_searcher,
-    get_corpus,
-    get_request_id,
     get_validator,
 )
 from src.service.config import SERVICE_VERSION
@@ -55,9 +52,14 @@ async def embed(
         )
 
     except SequenceValidationError as exc:
-        raise InvalidSequenceException(
-            str(exc),
-        ) from exc
+        if exc.error_code == SEQUENCE_TOO_LONG:
+            raise SequenceTooLongException(str(exc)) from exc
+        elif exc.error_code == BATCH_TOO_LARGE:
+            raise BatchTooLargeException(str(exc)) from exc
+        elif exc.error_code == PAYLOAD_TOO_LARGE:
+            raise PayloadTooLargeException(str(exc)) from exc
+        else:
+            raise InvalidSequenceException(str(exc)) from exc
 
     try:
         embeddings = await asyncio.to_thread(
