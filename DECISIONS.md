@@ -107,4 +107,59 @@ SwissProt is manually reviewed — every entry has experimentally supported func
 
 **Rationale**: Normalization converts raw pooled embeddings to unit vectors, enabling inner product to function as cosine similarity throughout the pipeline. Applied once in embed_tokenized for corpus embeddings, and verified at query time via norm assertion in Searcher.search.
 
+## Decision: Async execution strategy for ESM-2 inference
+
+**Date:** 2026-05-16
+**Status:** Accepted
+
+### Problem
+ESM-2 inference is a synchronous, blocking CPU/GPU operation. Calling it directly
+inside an async FastAPI handler freezes the event loop for the duration of the
+forward pass, making the service unresponsive to all other requests during inference.
+
+### Options considered
+1. `asyncio.to_thread` (default thread pool) — offloads blocking call to a worker
+   thread, event loop remains free
+2. `ProcessPoolExecutor` — separate process avoids GIL, but requires model reload
+   per process and adds significant memory overhead
+3. Background task queue (Celery, RQ) — decouples inference from request handling,
+   but adds broker infrastructure dependency out of scope for P4
+
+### Choice
+`asyncio.to_thread` with the default thread pool executor.
+
+### Rationale
+Sufficient for demo-scale single-instance concurrency. Concurrency verified
+empirically: two concurrent `/embed` requests completed in 289.6s total wall time
+vs 579.1s expected if sequential (closer to max=289.6s than sum=579.1s), confirming
+the event loop was not blocked. No additional infrastructure required. Clean
+integration with FastAPI lifecycle. ProcessPoolExecutor and task queues are the
+correct choice at production scale but are out of scope for P4.
+
+## Decision: Error taxonomy and HTTP status mapping
+
+**Date:** 2026-05-16
+**Status:** Accepted
+
+### Error codes
+
+| Error Code | HTTP Status | Route(s) | Smoke test reachable |
+|---|---|---|---|
+| `INVALID_SEQUENCE` | 422 | `POST /embed`, `POST /search` | Yes |
+| `SEQUENCE_TOO_LONG` | 422 | `POST /embed`, `POST /search` | Yes |
+| `BATCH_TOO_LARGE` | 422 | `POST /embed` | Yes |
+| `PAYLOAD_TOO_LARGE` | 413 | `POST /embed` | No — not explicitly tested; requires total character count to exceed max_payload_size |
+| `MODEL_NOT_LOADED` | 503 | `POST /embed`, `POST /search` | No — requires startup failure simulation |
+| `INDEX_NOT_READY` | 503 | `POST /search` | Yes — verified manually with missing index path |
+| `EMBEDDING_FAILED` | 500 | `POST /embed` | No — requires model to fail during inference |
+| `SEARCH_FAILED` | 500 | `POST /search` | No — requires FAISS to fail during search |
+| `INVALID_REQUEST` | 400 | Any | No — not currently raised by any handler |
+
+### Notes
+- `PAYLOAD_TOO_LARGE`, `MODEL_NOT_LOADED`, `EMBEDDING_FAILED`, `SEARCH_FAILED`,
+  and `INVALID_REQUEST` are defined and reachable in principle but not covered by
+  automated smoke tests. Coverage for failure-path codes deferred to Week 5
+  integration testing with mocks.
+- All codes that are reachable via normal input validation are covered.
+
 ## Cloud Platform

@@ -1,3 +1,4 @@
+import uuid
 import pytest
 from src.service.main import app
 from fastapi.testclient import TestClient
@@ -129,6 +130,37 @@ def test_embed_same_sequence_twice_returns_identical_embeddings(client):
     )
     output = response.json()["embeddings"]
     assert output[0] == output[1]
+
+
+def test_success_response_request_id_is_valid_uuid(client):
+    response = client.post(
+        "/embed", json={"sequences": ["MKTAYIAKQRQISFVKSHFSRQDILDLWIYHTQGYFP"]}
+    )
+
+    request_id = response.json()["request_id"]
+
+    assert uuid.UUID(request_id)
+
+
+def test_error_response_request_id_is_valid_uuid(client):
+    response = client.post("/embed", json={"sequences": ["AAA"] * 33})
+
+    request_id = response.json()["request_id"]
+
+    assert uuid.UUID(request_id)
+
+
+def test_request_ids_are_unique(client):
+    request_ids = []
+
+    for _ in range(10):
+        response = client.post(
+            "/embed", json={"sequences": ["MKTAYIAKQRQISFVKSHFSRQDILDLWIYHTQGYFP"]}
+        )
+
+        request_ids.append(response.json()["request_id"])
+
+    assert len(set(request_ids)) == 10
 
 
 # /search

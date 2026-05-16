@@ -17,6 +17,7 @@ from src.core.exceptions import (
     SEQUENCE_TOO_LONG,
     BATCH_TOO_LARGE,
     PAYLOAD_TOO_LARGE,
+    IndexNotReadyException,
 )
 from src.service.schemas import (
     EmbedRequest,
@@ -91,6 +92,9 @@ async def search(
 
     except SequenceValidationError as exc:
         raise InvalidSequenceException(str(exc)) from exc
+
+    if not request.app.state.index_loaded:
+        raise IndexNotReadyException("Index is not loaded.")
 
     try:
         search_results = await asyncio.to_thread(

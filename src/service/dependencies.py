@@ -3,6 +3,7 @@ from src.core.searcher import Searcher
 from src.core.embedder import ESM2Embedder
 from src.core.corpus_store import CorpusStore
 from src.core.validator import SequenceValidator
+from src.core.exceptions import IndexNotReadyException
 
 
 def get_embedder(request: Request) -> ESM2Embedder:
@@ -10,6 +11,8 @@ def get_embedder(request: Request) -> ESM2Embedder:
 
 
 def get_searcher(request: Request) -> Searcher:
+    if request.app.state.searcher is None:
+        raise IndexNotReadyException("Index is not loaded.")
     return request.app.state.searcher
 
 

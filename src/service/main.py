@@ -33,22 +33,30 @@ async def lifespan(app: FastAPI):
         logger.error("Model failed to load: %s", e)
 
     app.state.index_manager = IndexManager(index_type="", dim=0, params=None)
-    app.state.index_manager.load(settings.index_path)
-    if app.state.index_manager.index.ntotal > 0:  # type: ignore
-        app.state.index_loaded = True
-    else:
+    try:
+        app.state.index_manager.load(settings.index_path)
+        if app.state.index_manager.index.ntotal > 0:  # type: ignore
+            app.state.index_loaded = True
+        else:
+            app.state.index_loaded = False
+            logger.error("Index not loaded")
+    except Exception as e:
         app.state.index_loaded = False
-        logger.error("Index not loaded")
+        logger.error("Index failed to load %s", e)
 
     app.state.validator = SequenceValidator(
         max_batch_size=settings.max_batch_size,
         max_payload_size=settings.max_payload_size,
     )
-    app.state.searcher = Searcher(
-        corpus_store=app.state.corpus,
-        embedder=app.state.embedder,
-        index_manager=app.state.index_manager,
-    )
+    try:
+        app.state.searcher = Searcher(
+            corpus_store=app.state.corpus,
+            embedder=app.state.embedder,
+            index_manager=app.state.index_manager,
+        )
+    except Exception as e:
+        app.state.searcher = None
+        logger.error("Searcher failed to initialize: %s", e)
 
     yield
 
