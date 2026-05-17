@@ -1,4 +1,5 @@
 import logging
+import platform
 from fastapi import FastAPI, Request
 from src.service.routes import router
 from src.core.searcher import Searcher
@@ -8,7 +9,10 @@ from src.core.embedder import ESM2Embedder
 from fastapi.responses import JSONResponse
 from src.service.schemas import ErrorResponse
 from src.core.corpus_store import CorpusStore
+from src.service.config import SERVICE_VERSION
+from src.obs.metrics import service_build_info
 from src.core.index_manager import IndexManager
+from src.obs.logging_config import setup_logging
 from src.core.validator import SequenceValidator
 from src.core.exceptions import ServiceException
 from src.service.middleware import TimingMiddleware, RequestIDMiddleware
@@ -18,6 +22,9 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+
+    setup_logging()
+
     app.state.settings = settings
 
     app.state.corpus = CorpusStore(csv_path=settings.corpus_path)
@@ -43,7 +50,14 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         app.state.index_loaded = False
         logger.error("Index failed to load %s", e)
-
+    service_build_info.info(
+        {
+            "service_version": str(SERVICE_VERSION),
+            "model_version": str(app.state.embedder.model_version),
+            "index_version": str(app.state.index_manager.index_version),
+            "python_version": str(platform.python_version()),
+        }
+    )
     app.state.validator = SequenceValidator(
         max_batch_size=settings.max_batch_size,
         max_payload_size=settings.max_payload_size,
