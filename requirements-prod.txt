@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+torch==2.5.1
+transformers
+faiss-cpu
+prometheus-client
+numpy
+pandas
+pydantic
+pydantic-settings
+python-dotenv

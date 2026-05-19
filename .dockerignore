@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+.git/
+.gitignore
+venv/
+notebooks/
+scripts/
+tests/
+reports/
+logs/
+data/swissprot_embeddings.npy
+data/indexes/
+infra/
+*.md
