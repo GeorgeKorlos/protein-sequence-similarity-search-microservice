@@ -24,6 +24,9 @@ class ESM2Embedder(BaseEmbedder):
         debug: bool = False,
         compile_model: bool = True,
     ):
+        import threading
+
+        self._lock = threading.Lock()
         self.debug = debug
         self.MODEL_TAG = model_tag
 
@@ -86,7 +89,8 @@ class ESM2Embedder(BaseEmbedder):
         self, input_ids: torch.Tensor, attention_mask: torch.Tensor
     ) -> np.ndarray:
         with torch.no_grad():
-            outputs = self.model(input_ids=input_ids, attention_mask=attention_mask)
+            with self._lock:
+                outputs = self.model(input_ids=input_ids, attention_mask=attention_mask)
 
         pooled = self._mean_pool(outputs.last_hidden_state, attention_mask)
         normalized = pooled / pooled.norm(p=2, dim=1, keepdim=True)
