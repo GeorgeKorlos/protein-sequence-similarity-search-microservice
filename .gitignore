@@ -48,3 +48,6 @@ logs/
 
 # throwaway
 scratch
+
+# reports 
+reports/load_test_results.json
