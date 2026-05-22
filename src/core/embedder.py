@@ -4,6 +4,7 @@ import numpy as np
 import torch
 import hashlib
 import logging
+from typing import NamedTuple
 from transformers import AutoTokenizer, AutoModel
 
 logger = logging.getLogger(__name__)
@@ -12,6 +13,14 @@ logger = logging.getLogger(__name__)
 class BaseEmbedder(abc.ABC):
     @abc.abstractmethod
     def embed(self, sequences: list[str]) -> np.ndarray:
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def embedding_dim(self) -> int:
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def model_version(self) -> str:
         raise NotImplementedError
 
 
@@ -121,3 +130,109 @@ class ESM2Embedder(BaseEmbedder):
         result_a = self.embed([sequence])
         result_b = self.embed([sequence])
         return np.allclose(result_a, result_b, atol=1e-6)
+
+
+class AAProps(NamedTuple):
+    mol_weight: float
+    hydrophobicity: float
+    charge: float
+    polarity: float
+
+
+class PhysiochemicalEmbedder(BaseEmbedder):
+    AA_PROPS: dict[str, AAProps] = {
+        "A": AAProps(71.08, 1.8, 0.0, 9.1),
+        "C": AAProps(103.14, 2.5, 0.0, 5.5),
+        "D": AAProps(115.09, -3.5, -1.0, 13.0),
+        "E": AAProps(129.11, -3.5, -1.0, 12.3),
+        "F": AAProps(147.17, 2.8, 0.0, 5.2),
+        "G": AAProps(57.05, -0.4, 0.0, 9.0),
+        "H": AAProps(137.14, -3.2, 0.5, 10.4),
+        "I": AAProps(113.16, 4.5, 0.0, 5.2),
+        "K": AAProps(128.17, -3.9, 1.0, 11.3),
+        "L": AAProps(113.16, 3.8, 0.0, 4.9),
+        "M": AAProps(131.20, 1.9, 0.0, 5.7),
+        "N": AAProps(114.10, -3.5, 0.0, 11.6),
+        "P": AAProps(97.12, -1.6, 0.0, 8.0),
+        "Q": AAProps(128.13, -3.5, 0.0, 10.5),
+        "R": AAProps(156.19, -4.5, 1.0, 10.5),
+        "S": AAProps(87.08, -0.8, 0.0, 9.2),
+        "T": AAProps(101.10, -0.7, 0.0, 8.6),
+        "V": AAProps(99.13, 4.2, 0.0, 5.9),
+        "W": AAProps(186.21, -0.9, 0.0, 5.4),
+        "Y": AAProps(163.17, -1.3, 0.0, 6.2),
+    }
+
+    def __init__(self):
+        arr = np.array(list(self.AA_PROPS.values()), dtype=np.float32)
+        self._unknown_props = arr.mean(axis=0)
+
+    @property
+    def embedding_dim(self) -> int:
+        return 4
+
+    @property
+    def model_version(self) -> str:
+        return "physiochemical_v1"
+
+    def embed(self, sequences: list[str]) -> np.ndarray:
+        results = []
+
+        for seq in sequences:
+            vecs = []
+
+            for aa in seq:
+                props = self.AA_PROPS.get(aa, self._unknown_props)
+                vecs.append(props)
+
+            if len(vecs) == 0:
+                results.append(self._unknown_props)
+                continue
+
+            mat = np.array(vecs, dtype=np.float32)
+
+            vec = mat.mean(axis=0)
+            results.append(vec)
+
+        # (N, 4)
+        X = np.stack(results)
+
+        # (N, 1)
+        norm = np.linalg.norm(X, axis=1, keepdims=True)
+
+        eps = 1e-8
+
+        # (N, )
+        zero_mask = (norm < eps).reshape(-1)
+
+        if np.any(zero_mask):
+            logger.warning("%d zero-norm embedding detected", int(zero_mask.sum()))
+
+        X = X / np.maximum(norm, eps)
+
+        return X
+
+
+class RandomEmbedder(BaseEmbedder):
+
+    def __init__(self, seed: int = 42) -> None:
+        self._seed = seed
+        self._rng = np.random.default_rng(seed)
+
+    @property
+    def embedding_dim(self) -> int:
+        return 1280
+
+    @property
+    def model_version(self) -> str:
+        return f"random_seed{self._seed}"
+
+    def embed(self, sequences: list[str]) -> np.ndarray:
+        N = len(sequences)
+
+        X = self._rng.standard_normal(size=(N, 1280)).astype(np.float32)
+
+        norm = np.linalg.norm(X, axis=1, keepdims=True)
+        norm = np.maximum(norm, 1e-8)
+
+        return (X / norm).astype(np.float32)
