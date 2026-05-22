@@ -122,8 +122,15 @@ def build_index(embs: np.ndarray) -> faiss.IndexFlatIP:
 def evaluate(embedder_name, embedder, df, corpus_embs, index, n_queries, top_k, rng):
     query_indices = rng.choice(len(df), size=n_queries, replace=False)
 
-    aurocs, mrrs = [], []
+    aurocs, mrrs, hit_at_k_list = [], [], []
     n_skipped = 0
+
+    n_skipped_all_positive = 0
+    n_skipped_all_negative = 0
+    n_skipped_mixed_invalid = 0
+
+    n_pure_positive = 0
+    n_pure_negative = 0
 
     for qi in query_indices:
         query_id = df["id"].iloc[qi]
@@ -143,14 +150,8 @@ def evaluate(embedder_name, embedder, df, corpus_embs, index, n_queries, top_k, 
         y_true = [1 if set(df["go_terms"].iloc[i]) & query_go else 0 for i in I]
         y_score = D.tolist()
 
-        try:
-            auroc = roc_auc_score(y_true, y_score)
-            if np.isnan(auroc):
-                raise ValueError("nan auroc")
-            aurocs.append(auroc)
-        except ValueError:
-            n_skipped += 1
-            aurocs.append(None)
+        hit_at_k = 1.0 if any(y_true) else 0.0
+        hit_at_k_list.append(hit_at_k)
 
         rr = 0.0
         for rank, label in enumerate(y_true, start=1):
@@ -159,12 +160,41 @@ def evaluate(embedder_name, embedder, df, corpus_embs, index, n_queries, top_k, 
                 break
         mrrs.append(rr)
 
+        try:
+            auroc = roc_auc_score(y_true, y_score)
+            if np.isnan(auroc):
+                raise ValueError
+            aurocs.append(auroc)
+
+        except ValueError:
+            n_skipped += 1
+
+            if all(t == 1 for t in y_true):
+                n_skipped_all_positive += 1
+                n_pure_positive += 1
+
+            elif all(t == 0 for t in y_true):
+                n_skipped_all_negative += 1
+                n_pure_negative += 1
+
+            else:
+                n_skipped_mixed_invalid += 1
+
+            aurocs.append(None)
+
     valid_aurocs = [a for a in aurocs if a is not None]
+
     return {
-        "mean_auroc": float(np.mean(valid_aurocs)),
+        "mean_auroc": float(np.mean(valid_aurocs)) if len(valid_aurocs) > 0 else None,
         "mean_mrr": float(np.mean(mrrs)),
+        "hit_at_k": float(np.mean(hit_at_k_list)),
         "n_queries_scored": len(valid_aurocs),
         "n_queries_skipped": n_skipped,
+        "n_skipped_all_positive": n_skipped_all_positive,
+        "n_skipped_all_negative": n_skipped_all_negative,
+        "n_skipped_mixed_invalid": n_skipped_mixed_invalid,
+        "pct_pure_positive": n_pure_positive / len(query_indices),
+        "pct_pure_negative": n_pure_negative / len(query_indices),
     }
 
 
