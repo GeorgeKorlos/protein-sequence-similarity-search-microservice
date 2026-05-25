@@ -2,6 +2,17 @@
 
 Fast semantic similarity search over 547K UniProt proteins using ESM-2 embeddings and FAISS indexing.
 
+## Live Demo
+
+**Cloud Run (GCP europe-west1):** https://protein-search-699950260063.europe-west1.run.app
+
+```bash
+curl https://protein-search-699950260063.europe-west1.run.app/health
+curl -X POST https://protein-search-699950260063.europe-west1.run.app/search \
+  -H "Content-Type: application/json" \
+  -d '{"sequence": "MKTAYIAKQRQISFVKSHFSRQDILDLWIYHTQGYFP", "top_k": 5}'
+```
+
 ## Architecture
 
 ```
