@@ -28,10 +28,10 @@ Results exported as P5 handoff artifact.
 
 The selected ANN index configuration is **IndexIVFFlat with nprobe=10**.
 
-This configuration achieved a **Recall@10 of 0.9910** with a **median throughput of approximately 45 QPS**. Compared against the exact-search `IndexFlatIP` baseline with recall of `1.0000`, this represents a recall degradation of:
+This configuration achieved a **Recall@10 of 0.9906** with a **median throughput of approximately 45 QPS**. Compared against the exact-search `IndexFlatIP` baseline with recall of `1.0000`, this represents a recall degradation of:
 
 \[
-(1.0 - 0.9910) \times 100 = 0.9\%
+(1.0 - 0.9906) \times 100 = 0.94\%
 \]
 
 This tradeoff is acceptable because it reduces query cost substantially while maintaining effectively lossless retrieval quality for production semantic search workloads.
@@ -160,19 +160,19 @@ correct choice at production scale but are out of scope for P4.
 | `INVALID_SEQUENCE` | 422 | `POST /embed`, `POST /search` | Yes |
 | `SEQUENCE_TOO_LONG` | 422 | `POST /embed`, `POST /search` | Yes |
 | `BATCH_TOO_LARGE` | 422 | `POST /embed` | Yes |
-| `PAYLOAD_TOO_LARGE` | 413 | `POST /embed` | No — not explicitly tested; requires total character count to exceed max_payload_size |
+| `PAYLOAD_TOO_LARGE` | 413 | `POST /embed` | Yes |
 | `MODEL_NOT_LOADED` | 503 | `POST /embed`, `POST /search` | No — requires startup failure simulation |
 | `INDEX_NOT_READY` | 503 | `POST /search` | Yes — verified manually with missing index path |
-| `EMBEDDING_FAILED` | 500 | `POST /embed` | No — requires model to fail during inference |
-| `SEARCH_FAILED` | 500 | `POST /search` | No — requires FAISS to fail during search |
+| `EMBEDDING_FAILED` | 500 | `POST /embed` | Yes |
+| `SEARCH_FAILED` | 500 | `POST /search` | Yes |
 | `INVALID_REQUEST` | 400 | Any | No — not currently raised by any handler |
 
 ### Notes
-- `PAYLOAD_TOO_LARGE`, `MODEL_NOT_LOADED`, `EMBEDDING_FAILED`, `SEARCH_FAILED`,
-  and `INVALID_REQUEST` are defined and reachable in principle but not covered by
-  automated smoke tests. Coverage for failure-path codes deferred to Week 5
-  integration testing with mocks.
-- All codes that are reachable via normal input validation are covered.
+- `PAYLOAD_TOO_LARGE`, `EMBEDDING_FAILED`, and `SEARCH_FAILED` are covered by
+  mock-based smoke tests in [tests/test_api_smoke.py](tests/test_api_smoke.py).
+- `MODEL_NOT_LOADED` and `INVALID_REQUEST` are defined but not covered by automated
+  tests (require startup failure simulation or dead code paths).
+- All codes reachable via normal input validation are covered.
 
 ## Cloud Platform
 
