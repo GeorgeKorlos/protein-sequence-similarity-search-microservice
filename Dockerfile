@@ -25,9 +25,13 @@ COPY data/embedding_config.json ./data/
 # Index is NOT baked in — mounted at runtime via docker-compose or Cloud Run
 # data/indexes/ is provided via volume mount
 
+COPY scripts/entrypoint.sh ./scripts/entrypoint.sh
+COPY scripts/gcs_download.py ./scripts/gcs_download.py
+RUN chmod +x ./scripts/entrypoint.sh
+
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 
 EXPOSE 8000
 
-CMD ["uvicorn", "src.service.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["./scripts/entrypoint.sh"]

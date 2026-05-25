@@ -12,3 +12,22 @@
 | IndexHNSWFlat | `{'M': 32, 'efConstruction': 200, 'efSearch': 32}` | 0.9480 | 3337.52 | 3333.34 | 26.88 | 364.34 | 2808.77 |
 | IndexHNSWFlat | `{'M': 32, 'efConstruction': 200, 'efSearch': 64}` | 0.9564 | 1677.19 | 1675.02 | 8.38 | 372.35 | 2808.77 |
 | IndexHNSWFlat | `{'M': 32, 'efConstruction': 200, 'efSearch': 128}` | 0.9655 | 1073.75 | 1106.24 | 52.90 | 372.27 | 2808.77 |
+## Cloud Run CPU Inference Latency
+
+**Environment**: GCP Cloud Run, europe-west1, 4 vCPU, 16Gi RAM, CPU-only (float16)
+**Date**: 2026-05-25
+**Sequence**: MKTAYIAKQRQISFVKSHFSRQDILDLWIYHTQGYFP (37 aa)
+**Requests**: 10 sequential, warm instance
+
+| Metric | Value |
+|---|---|
+| p50 | 23.4s |
+| p95 | 24.8s |
+| min | 23.0s |
+| max | 24.8s |
+
+vs GPU baseline (RTX 3090, benchmarked during corpus embedding): ~10-15ms per sequence.
+CPU is approximately 1500-2500x slower than GPU for single-sequence inference.
+
+Note: float16 on CPU does not improve latency vs float32 — most CPUs lack native
+fp16 compute units and perform internal conversion, adding overhead.

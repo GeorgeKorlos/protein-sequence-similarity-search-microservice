@@ -14,3 +14,5 @@ data/swissprot_embeddings.npy
 data/indexes/
 infra/
 *.md
+!scripts/entrypoint.sh
+!scripts/gcs_download.py

@@ -55,10 +55,11 @@ class ESM2Embedder(BaseEmbedder):
 
         self.tokenizer = AutoTokenizer.from_pretrained(self.MODEL_TAG, use_fast=True)
 
-        model_dtype = torch.float16 if self.device.type == "cuda" else torch.float32
-        self.model = AutoModel.from_pretrained(self.MODEL_TAG, dtype=model_dtype).to(
-            self.device
-        )
+        self.model = AutoModel.from_pretrained(
+            self.MODEL_TAG,
+            dtype=torch.float16,
+            low_cpu_mem_usage=True,
+        ).to(self.device)
         self.model.eval()
 
         if compile_model and self.device.type == "cuda":
