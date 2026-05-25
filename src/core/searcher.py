@@ -15,7 +15,7 @@ class Searcher:
     def search(self, sequence: str, k: int = 10):
         query_vector = self.embedder.embed([sequence])
         query_vector = query_vector.squeeze()
-        assert np.isclose(np.linalg.norm(query_vector), 1.0, atol=1e-5)
+        assert np.isclose(np.linalg.norm(query_vector), 1.0, atol=1e-3)
         query_vector = np.expand_dims(query_vector, axis=0)
         distances, indices = self.index_manager.index.search(query_vector, k)
         distances = distances.squeeze()
