@@ -1,3 +1,4 @@
+import os
 import time
 import logging
 import argparse
@@ -238,27 +239,16 @@ def main():
     ids_path = args.output_dir / "swissprot_ids.txt"
     failed_path = args.log_dir / "failed_sequences.txt"
 
-    sequences_done = 0
-    batches_to_skip = 0
+    FLUSH_EVERY = 50
+
+    done_ids: set[str] = set()
+    write_cursor = 0
 
     if args.resume and ids_path.exists():
         with open(ids_path) as f:
-            sequences_done = sum(1 for line in f if line.strip())
-
-        counted = 0
-        for i, (seqs, _) in enumerate(batches):
-            if counted + len(seqs) <= sequences_done:
-                counted += len(seqs)
-                batches_to_skip = i + 1
-            else:
-                break
-
-        logger.info(
-            "Resuming from sequence %d (skipping %d batches)",
-            sequences_done,
-            batches_to_skip,
-        )
-        batches = batches[batches_to_skip:]
+            done_ids = {line.strip() for line in f if line.strip()}
+        write_cursor = len(done_ids)
+        logger.info("Resuming: %d sequences already embedded", write_cursor)
         memmap_arr = np.lib.format.open_memmap(
             filename=output_path,
             mode="r+",
@@ -276,12 +266,26 @@ def main():
     total = len(store)
     start_time = time.time()
     log_every = max(1, len(batches) // 200)
-    ids_file_mode = "a" if args.resume else "w"
-    sequences_this_run = 0
+    embedded_this_run = 0
+    id_buffer: list[str] = []
+    ids_mode = "a" if args.resume else "w"
+    failed_mode = "a" if args.resume else "w"
 
-    with open(ids_path, ids_file_mode) as f_ids, open(failed_path, "w") as f_failed:
+    def _commit(f_ids):
+        memmap_arr.flush()
+        if id_buffer:
+            f_ids.write("".join(id_buffer))
+            f_ids.flush()
+            os.fsync(f_ids.fileno())
+            id_buffer.clear()
+
+    with open(ids_path, ids_mode) as f_ids, open(failed_path, failed_mode) as f_failed:
         for batch_idx, (batch_seqs, batch_ids) in enumerate(batches):
+            if done_ids and all(bid in done_ids for bid in batch_ids):
+                continue
+
             batch_start_time = time.time()
+            n = len(batch_seqs)
 
             try:
                 tokens = model.tokenize(batch_seqs)
@@ -289,34 +293,30 @@ def main():
                 attention_mask = tokens["attention_mask"].to(
                     model.device, non_blocking=True
                 )
-
                 embeddings = model.embed_tokenized(input_ids, attention_mask)
-                memmap_arr[sequences_done : sequences_done + len(batch_seqs)] = (
-                    embeddings
-                )
 
-                if batch_idx % 50 == 0:
-                    memmap_arr.flush()
+                memmap_arr[write_cursor : write_cursor + n] = embeddings
+                id_buffer.append("\n".join(batch_ids) + "\n")
+                write_cursor += n
+                embedded_this_run += n
 
-                f_ids.write("\n".join(batch_ids) + "\n")
-                sequences_this_run += len(batch_seqs)
-                sequences_done += len(batch_seqs)
+                if batch_idx % FLUSH_EVERY == 0:
+                    _commit(f_ids)
 
                 if batch_idx % log_every == 0:
                     batch_latency_ms = (time.time() - batch_start_time) * 1000
                     elapsed = time.time() - start_time
                     eta = (
-                        (elapsed / sequences_this_run) * (total - sequences_done)
-                        if sequences_this_run
+                        (elapsed / embedded_this_run) * (total - write_cursor)
+                        if embedded_this_run
                         else 0
                     )
-                    batch_max_len = max(len(s) for s in batch_seqs)
                     logger.info(
-                        "Processed %d/%d | batch=%d seqs | max_len=%d | latency=%.2f ms | elapsed=%.2fs | eta=%.2fs",
-                        sequences_done,
+                        "Written %d/%d | batch=%d seqs | max_len=%d | latency=%.2f ms | elapsed=%.2fs | eta=%.2fs",
+                        write_cursor,
                         total,
-                        len(batch_seqs),
-                        batch_max_len,
+                        n,
+                        max(len(s) for s in batch_seqs),
                         batch_latency_ms,
                         elapsed,
                         eta,
@@ -324,23 +324,23 @@ def main():
 
             except Exception as e:
                 logger.error(
-                    "Batch failed at seq %d. IDs: %s. Error: %s",
-                    sequences_done,
+                    "Batch failed at row %d. IDs: %s. Error: %s",
+                    write_cursor,
                     batch_ids,
                     str(e),
                 )
                 f_failed.write("\n".join(batch_ids) + "\n")
-                sequences_this_run += len(batch_seqs)
-                sequences_done += len(batch_seqs)
+                f_failed.flush()
 
-    total_time = time.time() - start_time
-    sequences_per_sec = total / total_time if total_time > 0 else 0.0
-    logger.info(
-        "Completed embedding %d sequences in %.2fs (%.2f seq/s)",
-        total,
-        total_time,
-        sequences_per_sec,
-    )
+        _commit(f_ids)
+
+    if write_cursor < total:
+        logger.warning(
+            "Only %d/%d embedded; truncating output to valid rows", write_cursor, total
+        )
+        del memmap_arr
+        valid = np.array(np.load(output_path, mmap_mode="r")[:write_cursor])
+        np.save(output_path, valid)
 
 
 if __name__ == "__main__":

@@ -102,7 +102,7 @@ class ESM2Embedder(BaseEmbedder):
             with self._lock:
                 outputs = self.model(input_ids=input_ids, attention_mask=attention_mask)
 
-        pooled = self._mean_pool(outputs.last_hidden_state, attention_mask)
+        pooled = self._mean_pool(outputs.last_hidden_state, input_ids, attention_mask)
         normalized = pooled / pooled.norm(p=2, dim=1, keepdim=True)
         return normalized.float().cpu().numpy()
 
@@ -112,10 +112,16 @@ class ESM2Embedder(BaseEmbedder):
         attention_mask = tokens["attention_mask"].to(self.device, non_blocking=True)
         return self.embed_tokenized(input_ids, attention_mask)
 
-    def _mean_pool(self, hidden_states, attention_mask):
-        hs = hidden_states[:, 1:-1, :]
-        mask = attention_mask[:, 1:-1].unsqueeze(-1)
-        summed = (hs * mask).sum(dim=1)
+    def _mean_pool(self, hidden_states, input_ids, attention_mask):
+        cls_id = self.tokenizer.cls_token_id
+        eos_id = self.tokenizer.eos_token_id
+
+        residue_mask = (
+            attention_mask.bool() & (input_ids != cls_id) & (input_ids != eos_id)
+        )
+        mask = residue_mask.unsqueeze(-1).to(hidden_states.dtype)
+
+        summed = (hidden_states * mask).sum(dim=1)
         counts = mask.sum(dim=1).clamp(min=1)
         pooled = summed / counts
 

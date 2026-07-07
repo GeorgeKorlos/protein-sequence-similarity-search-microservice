@@ -67,3 +67,12 @@ def test_random_embedder_different_seeds_differ():
     out_a = RandomEmbedder(seed=42).embed(["ACDE"])
     out_b = RandomEmbedder(seed=99).embed(["ACDE"])
     assert not np.array_equal(out_a, out_b)
+
+
+def test_pooling_batch_invariant():
+    e = ESM2Embedder("facebook/esm2_t33_650M_UR50D", device="cpu")
+    short = "MKVL"
+    long = "MKVLACDEFGHIKLMNPQRSTVWYACDEFGHIKLMN"
+    v_alone = e.embed([short])[0]
+    v_inbatch = e.embed([short, long])[0]
+    assert np.abs(v_alone - v_inbatch).max() <= 1e-3
