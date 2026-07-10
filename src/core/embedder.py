@@ -88,7 +88,11 @@ class ESM2Embedder(BaseEmbedder):
 
     def tokenize(self, sequences: list[str]) -> dict[str, torch.Tensor]:
         tokens = self.tokenizer(
-            sequences, padding=True, truncation=True, return_tensors="pt"
+            sequences,
+            padding=True,
+            truncation=True,
+            max_length=1024,
+            return_tensors="pt",
         )
         return {
             k: v.pin_memory() if self.device.type == "cuda" else v
