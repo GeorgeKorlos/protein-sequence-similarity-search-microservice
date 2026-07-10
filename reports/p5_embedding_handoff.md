@@ -9,49 +9,35 @@ for retrieval-augmented DTI prediction and embedding ablation.
 | File | Format | Shape/Size | Description |
 |---|---|---|---|
 | swissprot_embeddings.npy | NumPy float32 | (547205, 1280) | L2-normalized mean-pooled ESM-2 embeddings |
-| swissprot_ids.txt | Plain text | 547205 lines | UniProt accession IDs, row-aligned with npy |
+| swissprot_ids.txt | Plain text | 547205 lines | UniProt accessions, row-aligned with npy |
 | swissprot_clean.csv | CSV | 547205 rows | Corpus metadata: id, sequence, organism, keywords, go_terms |
-| embedding_config.json | JSON | — | Embedding provenance: model, pooling, normalization, corpus hash |
+| embedding_config.json | JSON | - | Embedding provenance |
 
-## Loading
 
-```python
-import numpy as np
-
-embeddings = np.load("data/swissprot_embeddings.npy", mmap_mode="r")  # (547205, 1280)
-with open("data/swissprot_ids.txt") as f:
-    ids = [line.strip() for line in f if line.strip()]
-id_to_idx = {uid: i for i, uid in enumerate(ids)}
-```
-
-## Embedding Provenance
-
+## Provenance
 - Model: facebook/esm2_t33_650M_UR50D
-- Pooling: mean, mask-aware, excluding BOS/EOS tokens
+- Pooling: mean over residue tokens (BOS/EOS/PAD masked by token id)
 - Normalization: L2 post-pooling
-- Inference precision: fp16 (cast to float32 before storage)
-- Corpus: SwissProt 2026_01, 547,205 sequences (≤1024 aa, non-fragment)
+- Precision: fp16 inference, cast to float32 at storage
+- Corpus: SwissProt 2026_01, 547,205 sequences (<=1024 aa, non-fragment)
 - Corpus SHA256: 815b9c416dba10200840df8ba925c0d104a99c4ba72004839ee5a0bf04b202e4
-- Build date: 2026-05-02
-- Hardware: Vast.ai RTX 3090, 88 min, $0.25
+- Build date: 2026-07-07
+- Hardware: Vast.ai RTX 3090, ~82 min, $0.25
 
 ## Quality Evidence
+GO-term functional similarity proxy (see reports/embedding_comparison.md):
 
-GO-term functional similarity proxy task (see reports/embedding_comparison.md):
-- ESM-2 650M: MRR=0.991, AUROC=0.706, Hit@10=0.998
-- Physicochemical (4-dim): MRR=0.426, AUROC=0.515
-- Random (1280-dim): MRR=0.299, AUROC=0.485
+| Embedder | MRR | AUROC | Hit@10 |
+|---|---|---|---|
+| ESM-2 650M | 0.9907 | 0.7178 | 0.998 |
+| Physicochemical | 0.4204 | 0.5231 | 0.728 |
+| Random | 0.2991 | 0.4853 | 0.694 |
 
-AUROC for ESM-2 is computed on 62/500 queries only — 437/438 skipped queries had
-all-positive top-10 neighborhoods, reducing AUROC discriminability. MRR is the
-reliable primary metric.
-
-- ESM-2 650M AUROC: 0.706 vs physicochemical 0.515 vs random 0.485
+AUROC for ESM-2 is computed on 64/500 queries only (435/436 skipped queries had
+all-positive neighborhoods). MRR is the reliable primary metric.
 
 ## P5 Usage Notes
-
-- Row order in npy matches line order in swissprot_ids.txt exactly
-- Vectors are unit-norm — inner product equals cosine similarity
-- For P5 ablation: 150M and 3B variants should use identical pooling and normalization
-  for fair comparison
-- Norms are unit to within 1e-3 due to fp16→float32 cast at storage time
+- Row order in npy matches line order in swissprot_ids.txt exactly.
+- Vectors are unit-norm — inner product equals cosine similarity.
+- Ablation (150M, 3B) must use identical pooling and normalization for fair comparison.
+- Norms unit to within 1e-3 (fp16->float32 cast).

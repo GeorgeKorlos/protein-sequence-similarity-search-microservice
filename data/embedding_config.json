@@ -1,17 +1,17 @@
 {
   "model": "facebook/esm2_t33_650M_UR50D",
   "model_version": "facebook/esm2_t33_650M_UR50D_65a3b724",
-  "pooling": "mean (mask-aware, excluding BOS/EOS)",
+  "pooling": "mean over residue tokens (BOS/EOS/PAD masked by token id)",
   "normalization": "L2",
   "embedding_dim": 1280,
   "dtype_at_inference": "fp16",
   "sequence_length_cap": 1024,
   "long_seq_threshold": 800,
   "corpus_version": "815b9c416dba10200840df8ba925c0d104a99c4ba72004839ee5a0bf04b202e4",
-  "build_date": "2026-05-02",
+  "build_date": "2026-07-07",
   "total_sequences": 547205,
   "failed_sequences": 0,
   "rental_instance": "Vast.ai RTX 3090 24GB",
-  "total_runtime_seconds": 5289,
+  "total_runtime_seconds": 4942,
   "total_cost_usd": 0.25
 }
